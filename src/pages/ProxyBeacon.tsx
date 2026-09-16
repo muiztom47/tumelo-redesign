@@ -106,92 +106,72 @@ const HeroResearchReport = () => (
       <div className="border-b border-gray-800/60 px-6 py-5 bg-[#030509]/40">
         <div className="flex items-center justify-between">
           <div>
-            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Research report</div>
-            <div className="text-white text-lg font-semibold tracking-tight">Executive Compensation Analysis</div>
+            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Custom report</div>
+            <div className="text-white text-lg font-semibold tracking-tight">Executive Remuneration</div>
           </div>
           <div className="text-right">
-            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Generated in</div>
-            <div className="text-[#2eb6b9] font-mono text-sm font-semibold">2 hrs 14 min</div>
+            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Generated</div>
+            <div className="text-[#2eb6b9] font-mono text-sm font-semibold">1 hr 40 min</div>
           </div>
         </div>
       </div>
 
-      {/* Findings */}
+      {/* Extracted data — sourced to the filing */}
       <div className="divide-y divide-gray-800/40">
         {[
-          {
-            label: "CEO total realised pay",
-            value: "$48.2M",
-            source: "p.42 §3",
-            flag: "high",
-          },
-          {
-            label: "Pay vs. TSR (3y)",
-            value: "+184% / +22%",
-            source: "p.43 §1",
-            flag: "high",
-          },
-          {
-            label: "Discretion applied",
-            value: "$6.4M",
-            source: "p.44 §2",
-            flag: "flag",
-          },
-          {
-            label: "Peer median comparison",
-            value: "$22.1M",
-            source: "p.45 §4",
-            flag: "clear",
-          },
+          { label: "CEO total realised pay", value: "$48.2M", source: "p.42 §3" },
+          { label: "Pay vs. TSR (3y)", value: "+184% / +22%", source: "p.43 §1" },
+          { label: "Peer median (self-defined group)", value: "$22.1M", source: "p.45 §4" },
         ].map((row, i) => (
-          <div key={i} className="group px-6 py-5 hover:bg-[#0A0E17] transition-colors">
-            <div className="flex items-start justify-between gap-4 mb-3">
-              <span className="text-sm text-white font-medium tracking-tight">{row.label}</span>
-              <span className={`text-[10px] font-mono tracking-[0.15em] uppercase shrink-0 ${
-                row.flag === "high" ? "text-red-400" :
-                row.flag === "flag" ? "text-yellow-500" :
-                "text-[#2eb6b9]"
-              }`}>
-                {row.flag === "high" ? "● Flag" :
-                 row.flag === "flag" ? "◐ Review" :
-                 "✓ Clear"}
-              </span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className={`text-lg font-mono font-light tracking-tight ${
-                row.flag === "high" ? "text-white" : "text-gray-300"
-              }`}>
-                {row.value}
-              </span>
+          <div key={i} className="px-6 py-5">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-sm text-gray-300 font-light">{row.label}</span>
               <span className="text-[10px] font-mono text-gray-600 tracking-[0.15em] flex items-center gap-2">
                 <span className="w-1 h-1 rounded-full bg-gray-700"></span>
                 {row.source}
               </span>
             </div>
+            <span className="text-lg font-mono font-light text-white tracking-tight">{row.value}</span>
           </div>
         ))}
       </div>
 
-      {/* Recommendation */}
-      <div className="border-t border-gray-800/60 px-6 py-5 bg-[#030509]/60">
-        <div className="flex items-center justify-between">
+      {/* Governance flag — matches their "alert triggered" pattern */}
+      <div className="border-t border-gray-800/60 px-6 py-5 bg-[#2eb6b9]/[0.04]">
+        <div className="flex items-start justify-between gap-4">
           <div>
-            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Policy outcome</div>
-            <div className="text-white text-sm font-semibold">VOTE AGAINST</div>
+            <div className="text-[10px] font-mono text-red-400 tracking-[0.25em] uppercase mb-2">● Flag triggered</div>
+            <div className="text-sm text-white font-medium">Discretion applied exceeds threshold: $6.4M</div>
           </div>
+          <span className="text-[10px] font-mono text-gray-600 tracking-[0.15em] shrink-0 mt-1">p.44 §2</span>
+        </div>
+      </div>
+
+      {/* Rule output + rationale — matches their custom-policy screenshot */}
+      <div className="border-t border-gray-800/60 px-6 py-5 bg-[#030509]/60">
+        <div className="flex items-center justify-between mb-3">
+          <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase">Rule output</div>
           <div className="flex items-center gap-2">
             <div className="w-1.5 h-1.5 rounded-full bg-[#2eb6b9]"></div>
             <span className="text-[10px] font-mono text-[#2eb6b9] tracking-[0.2em] uppercase font-semibold">Fully sourced</span>
           </div>
         </div>
+        <div className="flex items-baseline gap-3 mb-2">
+          <span className="text-white text-sm font-semibold">VOTE AGAINST</span>
+          <span className="text-[10px] font-mono text-gray-500 tracking-[0.15em] uppercase">per your policy</span>
+        </div>
+        <p className="text-[11px] text-gray-500 font-light leading-relaxed">
+          Pay growth outpaces 3y TSR and discretion exceeds your defined threshold.
+        </p>
       </div>
     </div>
   </div>
 );
 
+
 // --- CAPABILITY VISUAL 1: Research Pipeline ---
 const VisualResearchPipeline = () => (
-  <div className="w-full h-72 relative bg-[#030509] border border-gray-800/60 overflow-hidden">
+  <div className="w-full min-h-72 relative bg-[#030509] border border-gray-800/60">
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
 
     <div className="relative p-8 h-full flex flex-col">
@@ -232,7 +212,7 @@ const VisualResearchPipeline = () => (
 
 // --- CAPABILITY VISUAL 2: Governance Flags ---
 const VisualGovernanceFlags = () => (
-  <div className="w-full h-72 relative bg-[#030509] border border-gray-800/60 overflow-hidden">
+  <div className="w-full min-h-72 relative bg-[#030509] border border-gray-800/60">
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
 
     <div className="relative p-8 h-full flex flex-col">
@@ -275,7 +255,7 @@ const VisualGovernanceFlags = () => (
 
 // --- CAPABILITY VISUAL 3: Natural Language Rule Builder ---
 const VisualRuleBuilder = () => (
-  <div className="w-full h-72 relative bg-[#030509] border border-gray-800/60 overflow-hidden">
+  <div className="w-full min-h-72 relative bg-[#030509] border border-gray-800/60">
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
 
     <div className="relative p-8 h-full flex flex-col justify-center">
@@ -285,7 +265,7 @@ const VisualRuleBuilder = () => (
       <div className="w-full bg-[#0A0E17] border border-gray-700 p-4 mb-5 relative">
         <div className="absolute -top-2 left-3 bg-[#030509] px-2 text-[9px] font-mono text-gray-500 tracking-[0.2em] uppercase">Input</div>
         <p className="text-sm text-white font-mono leading-relaxed">
-          "Alert me if director overboarding exceeds <span className="text-[#2eb6b9] underline decoration-[#2eb6b9]/50">4 boards</span>"
+          “Alert me if director overboarding exceeds <span className="text-[#2eb6b9] underline decoration-[#2eb6b9]/50">4 boards</span>”
         </p>
       </div>
 
@@ -320,7 +300,7 @@ const VisualRuleBuilder = () => (
 
 // --- CAPABILITY VISUAL 4: Audit Trail ---
 const VisualAuditTrail = () => (
-  <div className="w-full h-72 relative bg-[#030509] border border-gray-800/60 overflow-hidden">
+  <div className="w-full min-h-72 relative bg-[#030509] border border-gray-800/60">
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:2rem_2rem]"></div>
 
     <div className="relative p-8 h-full flex flex-col">
@@ -336,7 +316,7 @@ const VisualAuditTrail = () => (
           { label: "Extracted data", value: "Bonus Cap: N/A", source: "p.42 §3", highlight: false },
           { label: "Source document", value: "Microsoft DEF 14A", source: "SEC", highlight: false },
         ].map((item, i) => (
-          <div key={i} className="flex items-start gap-4 relative">
+          <div key={i} className={`flex items-start gap-4 relative ${i === 3 ? "pb-2" : ""}`}>
             {i < 3 && <div className="absolute left-[7px] top-6 w-[1px] h-7 bg-gray-800"></div>}
             <div className={`shrink-0 w-3 h-3 rounded-full border-2 mt-1 z-10 ${
               item.highlight ? "border-[#2eb6b9] bg-[#2eb6b9]" : "border-gray-700 bg-[#030509]"
@@ -386,15 +366,17 @@ const ProxyBeaconHero = () => (
         </h1>
 
         <p className="text-xl md:text-2xl text-white font-light leading-[1.5] mb-6 max-w-xl">
-          Generate your own proxy research in-house. Custom reports, governance flags, and rule outputs — within hours of a meeting being announced.
+          ProxyBeacon helps stewardship teams generate structured proxy research, governance flags, and policy outputs from company filings within hours.
         </p>
 
         <p className="text-base text-gray-400 font-light leading-relaxed max-w-xl mb-12 border-l border-gray-800 pl-6">
-          AI extracts and structures. Your policy decides. Every output traceable to the source filing, page, and paragraph. Built for stewardship teams at asset managers and asset owners.
+          Every result is sourced to the underlying disclosure, so your team can review the evidence behind each decision.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-5">
-          <a href="#contact" className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all hover:bg-white whitespace-nowrap">
+      <a   href="https://www.tumelo.com/demo"
+  target="_blank"
+  rel="noopener noreferrer" className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all hover:bg-white whitespace-nowrap">
             <span>Book a Demo</span>
             <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
           </a>
@@ -421,26 +403,26 @@ const CoreCapabilities = () => {
   const capabilities = [
     {
       num: "01",
-      title: "Custom research reports, fast",
-      description: "Define your own criteria and flags. Receive fully sourced research reports within hours of a meeting being announced — covering board quality, remuneration, shareholder proposals, and audit risk.",
+      title: "Custom research reports",
+      description: "Define your own research criteria and receive fully sourced reports within hours of a meeting being announced. Cover board quality, remuneration, shareholder proposals, audit risk, and other areas relevant to your policy.",
       icon: <IconFile />,
     },
     {
       num: "02",
       title: "Automated governance flags",
-      description: "Flag your key governance thresholds. ProxyBeacon monitors disclosures continuously and notifies you the moment your conditions are triggered — no more manual scanning.",
+      description: "Set the governance thresholds that matter to your team. ProxyBeacon monitors disclosures and flags relevant issues when your criteria are met.",
       icon: <IconAlert />,
     },
     {
       num: "03",
       title: "Custom voting policies",
-      description: "Define rules intuitively using natural language, apply them by market, sector, or theme, and backtest for accuracy. Update rules yourself — no annual review cycle.",
+      description: "Create rules in natural language, apply them across markets and sectors, and test them against historical outcomes before putting them into use.",
       icon: <IconLayers />,
     },
     {
       num: "04",
       title: "Peer-comparison reporting",
-      description: "Define peer groups, compare CEO pay vs. TSR, and produce report templates that highlight differences between companies. Fully sourced and engagement-ready.",
+      description: "Build defined peer groups and compare companies across metrics such as executive compensation and TSR, with sources attached to the analysis.",
       icon: <IconCompare />,
     },
   ];
@@ -449,17 +431,17 @@ const CoreCapabilities = () => {
     <section className="py-40 bg-[#05080F] border-t border-gray-800/60">
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
-          <div className="max-w-2xl">
+          <div className="max-w-4xl">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
               <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Core Capabilities</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-              Four capabilities. <br />
-              <span className="text-[#2eb6b9]">In-house research.</span>
-            </h2>
-            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-              Everything a stewardship team needs to bring proxy research and policy application in-house — without building a proprietary platform.
+<h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  Everything you need to research{" "}
+  <span className="text-[#2eb6b9]">and assess proxy votes.</span>
+</h2>
+            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-3xl">
+              ProxyBeacon gives your team control over how proxy research is produced and assessed. Generate research from company filings, flag issues against your thresholds, apply voting rules, and create consistent peer comparisons.
             </p>
           </div>
           <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -498,17 +480,17 @@ const HowItWorks = () => (
   <section id="how-it-works" className="py-40 bg-[#030509] border-t border-gray-800/60">
     <div className="max-w-[90rem] mx-auto px-8 md:px-16">
       <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
-        <div className="max-w-2xl">
+        <div className="max-w-3xl">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
             <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">How it works</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-            From filings <br />
-            <span className="text-[#2eb6b9]">to sourced conclusions.</span>
-          </h2>
-          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-            A deterministic pipeline. Every output traceable. Every conclusion auditable.
+        <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  A structured workflow from{" "}
+  <span className="text-[#2eb6b9]">company disclosure to voting analysis.</span>
+</h2>
+          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-3xl">
+     ProxyBeacon takes the information published by companies and turns it into structured research for stewardship teams. It extracts the relevant data, applies your policies, identifies exceptions, and preserves the source behind every output.
           </p>
         </div>
         <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -533,14 +515,14 @@ const HowItWorks = () => (
           },
           {
             num: "03",
-            title: "Flag what matters",
-            description: "Define your own governance thresholds. ProxyBeacon monitors disclosures continuously and surfaces exceptions — overboarding, pay discretion, climate gaps, audit tenure.",
+            title: "Identify exceptions",
+            description: "Set governance thresholds for issues such as director overboarding, executive pay, climate targets, and auditor tenure. ProxyBeacon identifies exceptions across the companies you monitor.",
             visual: <VisualGovernanceFlags />,
           },
           {
             num: "04",
-            title: "Trace to source",
-            description: "Every output links directly back to the specific page, paragraph, or data point in the filing. Your team can verify in seconds. Auditors can trace the full chain.",
+            title: "Verify every conclusion",
+            description: "Trace each finding back to the underlying filing, including the specific page, paragraph, or data point used to produce it.",
             visual: <VisualAuditTrail />,
           },
         ].map((step, i) => (
@@ -572,17 +554,17 @@ const WhyItMatters = () => (
   <section className="py-40 bg-[#05080F] border-t border-gray-800/60">
     <div className="max-w-[90rem] mx-auto px-8 md:px-16">
       <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
-        <div className="max-w-2xl">
+        <div className="max-w-4xl">
           <div className="flex items-center gap-4 mb-8">
             <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-            <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Stakes</span>
+            <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Challenge</span>
           </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-            Why stewardship teams <br />
-            <span className="text-[#2eb6b9]">are bringing it in-house.</span>
-          </h2>
-          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-            Three pressures converging on the traditional proxy advisory model — and forcing a structural shift.
+     <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  Proxy research is harder to manage{" "}
+  <span className="text-[#2eb6b9]">at institutional scale.</span>
+</h2>
+          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-4xl">
+       Large stewardship teams face thousands of meetings, short decision windows, and increasing expectations to demonstrate how voting decisions were reached. Standardised research can leave teams with less time to assess the issues that matter to their own policies.
           </p>
         </div>
         <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -598,21 +580,21 @@ const WhyItMatters = () => (
             title: "Scale",
             stat: "5,000+",
             statLabel: "Meetings per season",
-            description: "Large institutional investors vote on thousands of meetings in a single proxy season. Each requires timely research, policy application, and defensible rationale.",
+            description: "Large institutional investors may need to assess thousands of meetings in a single proxy season. Each requires research, policy application, and a clear rationale for the final decision.",
           },
           {
             num: "02",
             title: "Timing",
             stat: "48 hrs",
             statLabel: "Before decisions must be made",
-            description: "Traditional research often arrives late. Teams end up managing hundreds of meetings with research that forces reactive rather than considered decisions.",
+            description: "Research needs to arrive early enough for stewardship teams to review it and make considered decisions. Late research compresses the time available for analysis and engagement.",
           },
           {
             num: "03",
             title: "Expectations",
             stat: "2026",
             statLabel: "UK Stewardship Code",
-            description: "Regulators and clients expect voting decisions to reflect a firm's own policies and analysis — not a standardised external view.",
+            description: "Investors and regulators increasingly expect firms to demonstrate how voting decisions reflect their own stewardship policies, analysis, and judgement.",
           },
         ].map((driver, i) => (
           <div key={i} className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-12 transition-all duration-500">
@@ -634,20 +616,22 @@ const WhyItMatters = () => (
           <div className="max-w-2xl">
             <div className="text-[10px] font-mono text-[#2eb6b9] tracking-[0.25em] uppercase mb-4">The outcome</div>
             <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-3">
-              Tools that help stewardship teams produce their own research.
+              Research tools built for institutional stewardship.
             </h3>
             <p className="text-base text-gray-400 font-light leading-relaxed">
-              Quickly and consistently, with full auditability — without having to build the entire process themselves.
+Give your team a faster way to produce its own research, apply its policies, and review the evidence behind each conclusion without building the entire workflow internally.
             </p>
           </div>
-          <Link
-            to="#contact"
-            className="group inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors whitespace-nowrap"
-          >
-            <span>Book a demo</span>
-            <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover:bg-white group-hover:w-12 transition-all duration-500"></span>
-            <IconArrowRight className="w-3 h-3" />
-          </Link>
+       <a
+  href="https://www.tumelo.com/demo"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors whitespace-nowrap"
+>
+  <span>Book a demo</span>
+  <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover:bg-white group-hover:w-12 transition-all duration-500"></span>
+  <IconArrowRight className="w-3 h-3" />
+</a>
         </div>
       </div>
     </div>
@@ -660,7 +644,7 @@ const TrustSection = () => (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#2eb6b9] opacity-[0.04] blur-[120px] rounded-full"></div>
 
     <div className="relative max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="max-w-2xl mb-20">
+      <div className="max-w-3xl mb-20">
         <div className="flex items-center gap-4 mb-8">
           <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
           <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Trust & Accuracy</span>
@@ -669,17 +653,17 @@ const TrustSection = () => (
           Can AI be trusted <br />
           <span className="text-[#2eb6b9]">with fiduciary weight?</span>
         </h2>
-        <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-          It's the right question. Voting decisions carry fiduciary weight. Any tool that supports them needs to meet high standards of accuracy, transparency, and accountability.
+        <p className="text-lg text-gray-400 font-light leading-relaxed max-w-3xl">
+Not on its own. ProxyBeacon uses AI for the parts of proxy research it is suited to: reading, extracting, structuring, and flagging information. Your policies determine the rules, your team reviews the evidence, and every output remains traceable to its source.
         </p>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-800/40 border border-gray-800/40">
         {[
-          { num: "01", icon: <IconZap />, title: "Extracts, doesn't judge", desc: "AI reads filings and structures data against your templates. Judgement remains with you — your policies, your priorities, your thresholds." },
-          { num: "02", icon: <IconShield />, title: "Deterministic rules", desc: "Rule outputs are applied as explicit conditions. If a company triggers one, the output is consistent and predictable. No ambiguity." },
-          { num: "03", icon: <IconFile />, title: "Traceable to source", desc: "Every answer links to the specific page, paragraph, or data point in the filing. Your team verifies in seconds. Auditors trace the full chain." },
-          { num: "04", icon: <IconCheck />, title: "Hallucination prevention", desc: "The system surfaces information that exists in the source material. Where information is absent or ambiguous, ProxyBeacon flags it rather than filling the gap." },
+          { num: "01", icon: <IconZap />, title: "Extracts, doesn’t judge", desc: "AI reads company filings and structures the relevant information against your research criteria. Your team retains judgement over how that evidence is interpreted and applied." },
+          { num: "02", icon: <IconShield />, title: "Rules stay explicit", desc: "Your rules are applied as defined conditions, producing consistent outputs when the same criteria are met. There is no hidden decision-making layer." },
+          { num: "03", icon: <IconFile />, title: "Every output is sourced", desc: "Each result links back to the relevant page, paragraph, or data point in the filing, so your team can verify the evidence behind it." },
+          { num: "04", icon: <IconCheck />, title: "Hallucination prevention", desc: "When information is missing or ambiguous in the source material, ProxyBeacon flags it rather than filling the gap with an unsupported answer." },
         ].map((item, i) => (
           <div key={i} className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 transition-all duration-500">
             <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2eb6b9] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"></div>
@@ -839,82 +823,7 @@ const WhoBenefits = () => {
   );
 };
 
-// --- PROXYBEACON + PROXYSPHERE (The Complete Loop) ---
-const CombinedLoop = () => (
-  <section className="py-40 bg-[#030509] border-t border-gray-800/60 relative overflow-hidden">
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[400px] bg-[#2eb6b9] opacity-[0.03] blur-[140px] rounded-full pointer-events-none"></div>
 
-    <div className="relative max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="max-w-2xl mb-20">
-        <div className="flex items-center gap-4 mb-8">
-          <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-          <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Complete Loop</span>
-        </div>
-        <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-          Research to vote <br />
-          <span className="text-[#2eb6b9]">in one platform.</span>
-        </h2>
-        <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-          ProxyBeacon is the research layer. ProxySphere is the voting infrastructure. Together, they close the loop on stewardship — from analysis to execution.
-        </p>
-      </div>
-
-      <div className="grid lg:grid-cols-2 gap-px bg-gray-800/40 border border-gray-800/40">
-        {/* ProxyBeacon */}
-        <div className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-14 transition-all duration-500">
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2eb6b9] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"></div>
-          <div className="text-[10px] font-mono text-[#2eb6b9] tracking-[0.25em] uppercase mb-6">The Research Engine</div>
-          <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">ProxyBeacon</h3>
-          <div className="w-8 h-[1px] bg-[#2eb6b9] mb-6"></div>
-          <p className="text-base text-gray-400 font-light leading-relaxed mb-10">
-            Generates structured, sourced research. Applies your policy. Flags exceptions. Produces defensible rationales.
-          </p>
-          <Link
-            to="/proxybeacon"
-            className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
-          >
-            <span>Explore ProxyBeacon</span>
-            <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
-            <IconArrowRight className="w-3 h-3" />
-          </Link>
-        </div>
-
-        {/* ProxySphere */}
-        <div className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-14 transition-all duration-500">
-          <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2eb6b9] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"></div>
-          <div className="text-[10px] font-mono text-[#2eb6b9] tracking-[0.25em] uppercase mb-6">The Voting Engine</div>
-          <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-4">ProxySphere</h3>
-          <div className="w-8 h-[1px] bg-[#2eb6b9] mb-6"></div>
-          <p className="text-base text-gray-400 font-light leading-relaxed mb-10">
-            Executes the vote. Splits proportionally. Applies pass-through voting across pooled funds. Full cryptographic auditability.
-          </p>
-          <Link
-            to="/proxysphere"
-            className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
-          >
-            <span>Explore ProxySphere</span>
-            <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
-            <IconArrowRight className="w-3 h-3" />
-          </Link>
-        </div>
-      </div>
-
-      <div className="flex items-center justify-between mt-10 pt-8 border-t border-gray-800/40">
-        <div className="flex items-center gap-4">
-          <div className="w-1.5 h-1.5 rounded-full bg-[#2eb6b9]"></div>
-          <span className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase">
-            One workflow · One data model · One deployment
-          </span>
-        </div>
-        <div className="hidden md:flex items-center gap-3 text-[10px] font-mono text-gray-600 tracking-[0.25em] uppercase">
-          <span>Research</span>
-          <span className="text-[#2eb6b9]">→</span>
-          <span>Vote</span>
-        </div>
-      </div>
-    </div>
-  </section>
-);
 
 // --- CASE STUDY ---
 const CaseStudy = () => (
@@ -1158,69 +1067,6 @@ const CTASection = () => (
   </section>
 );
 
-// --- FOOTER ---
-const EliteFooter = () => (
-  <footer className="bg-[#030509] border-t border-gray-800/60 pt-24 pb-12">
-    <div className="max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 lg:gap-8 mb-24">
-        <div className="col-span-2 lg:col-span-2 pr-12">
-          <TumeloLogo className="mb-8" />
-          <p className="text-gray-500 font-light text-sm leading-relaxed mb-8 max-w-xs">
-            Voting infrastructure for fund managers, institutional investors, and retail investors. Bristol & New York.
-          </p>
-          <div className="flex gap-4">
-            {["LinkedIn", "Twitter"].map(social => (
-              <a key={social} href="#" className="text-xs font-mono text-gray-600 uppercase tracking-widest hover:text-[#2eb6b9] transition-colors">
-                {social}
-              </a>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Products</h4>
-          <ul className="space-y-4">
-            {["ProxySphere", "ProxyBeacon", "API Docs", "Security"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Who we help</h4>
-          <ul className="space-y-4">
-            {["Fund Managers", "Institutional Investors", "Retail Investors", "Case Studies"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Company</h4>
-          <ul className="space-y-4">
-            {["About Us", "Careers", "Newsroom", "Contact"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
-          <ul className="space-y-4">
-            {["Privacy", "Terms", "Cookies", "Compliance"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-gray-600 font-mono text-[10px] uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} Tumelo Ltd. All rights reserved.
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#2eb6b9] animate-pulse"></div>
-          <span className="text-gray-500 font-mono text-[10px] uppercase tracking-widest">All Systems Operational</span>
-        </div>
-      </div>
-    </div>
-  </footer>
-);
 
 // ==========================================
 // 4. MAIN PAGE EXPORT
@@ -1248,13 +1094,12 @@ export default function ProxyBeacon() {
         <WhyItMatters />
         <TrustSection />
         <WhoBenefits />
-        <CombinedLoop />
         <CaseStudy />
         <FAQ />
         <CTASection />
       </main>
 
-      <EliteFooter />
+
     </div>
   );
 }
