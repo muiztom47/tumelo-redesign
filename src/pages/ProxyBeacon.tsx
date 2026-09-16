@@ -692,8 +692,8 @@ const WhoBenefits = () => {
   const audiences = [
     {
       label: "For Stewardship Teams",
-      headline: "Research at scale, without the overhead.",
-      description: "You're responsible for voting across thousands of meetings. Produce defensible rationales, apply policies consistently, and bring research in-house.",
+      headline: "Produce research faster.",
+      description: "Research thousands of meetings, apply your firm's policies, and give every voting decision a clear evidence trail.",
       benefits: [
         "Generate research at scale while maintaining consistency",
         "Apply your firm's policies directly",
@@ -704,8 +704,8 @@ const WhoBenefits = () => {
     },
     {
       label: "For Asset Owners & Trustees",
-      headline: "Oversight and alignment.",
-      description: "You need visibility into how votes are cast on your behalf — and the ability to ensure they reflect your own stewardship priorities.",
+      headline: "See how votes are decided.",
+      description: "Get greater visibility into the research behind voting decisions and assess whether they reflect your stewardship priorities.",
       benefits: [
         "Access structured research to understand decisions",
         "Define and apply your own governance priorities",
@@ -717,7 +717,7 @@ const WhoBenefits = () => {
     {
       label: "For Firms Reducing Advisor Reliance",
       headline: "Build internal capability.",
-      description: "Moving away from external proxy advisory services, or supplementing them — without adding operational burden.",
+      description: "Produce proxy research around your own frameworks, whether you are reducing reliance on external advisors or supplementing their recommendations.",
       benefits: [
         "Generate structured research using your own frameworks",
         "Maintain consistency across large volumes",
@@ -737,12 +737,15 @@ const WhoBenefits = () => {
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
               <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Who benefits</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-              Three audiences. <br />
-              <span className="text-[#2eb6b9]">One research engine.</span>
-            </h2>
-            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-              ProxyBeacon serves the entire stewardship chain — from the team making daily decisions to the trustees overseeing them.
+           
+           
+        <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  Built for {" "}
+  <span className="text-[#2eb6b9]">every role in stewardship.</span>
+</h2>
+
+            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl">
+              ProxyBeacon gives stewardship teams, asset owners, and investment firms more control over how proxy research is produced, reviewed, and applied.
             </p>
           </div>
           <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -806,14 +809,16 @@ const WhoBenefits = () => {
               </div>
 
               <div className="relative flex items-end justify-between border-t border-gray-800/60 pt-8">
-                <Link
-                  to="#contact"
-                  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
-                >
-                  <span>Speak to team</span>
-                  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
-                  <IconArrowRight className="w-3 h-3" />
-                </Link>
+           <a
+  href="https://www.tumelo.com/contact?hsLang=en"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
+>
+  <span>Speak to team</span>
+  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
+  <IconArrowRight className="w-3 h-3" />
+</a>
               </div>
             </div>
           ))}
@@ -837,7 +842,7 @@ const CaseStudy = () => (
             <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Client story</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-serif text-white leading-[1.3] mb-12">
-            "Tumelo is an extremely agile, collaborative, and results-focused team. They are a pleasure to work with."
+            “Tumelo is an extremely agile, collaborative, and results-focused team. They are a pleasure to work with.”
           </h2>
           <div className="flex items-center gap-6">
             <div className="w-16 h-[1px] bg-gray-700"></div>
@@ -879,41 +884,43 @@ const CaseStudy = () => (
 );
 
 // --- FAQ ---
+
 const FAQ = () => {
   const faqs = [
     {
       q: "What is ProxyBeacon?",
-      a: "ProxyBeacon is Tumelo's AI platform for proxy voting research and stewardship workflows. It enables stewardship teams at asset managers and asset owners to generate their own structured, fully sourced proxy research — custom reports, governance flags, and rule outputs — aligned to their own priorities and auditable end to end.",
+      a: "ProxyBeacon is Tumelo’s AI platform for proxy voting research. It turns company filings into structured, fully sourced research, governance flags, and policy outputs based on your firm's own criteria.",
     },
     {
       q: "How does ProxyBeacon differ from using a proxy advisor?",
-      a: "Proxy advisors produce standardised recommendations based on their own policies. ProxyBeacon is different. You design the research templates, decide which data points matter, and generate rule outputs based on your own priorities. Every output is traceable to the source document, and the conclusions reflect your firm's position, not ours.",
+      a: "A proxy advisor provides research and recommendations based on its own methodology. ProxyBeacon lets your team define the research criteria, policies, and rules used to assess each meeting. Every output is linked to the underlying source.",
     },
     {
       q: "How does AI work? Can I trust the outputs?",
-      a: "ProxyBeacon's AI extracts and structures information from company filings — it does not make judgment calls. Rule outputs are deterministic and rules-based. Every output is traceable to the specific source document and data point. Where information is absent or ambiguous, ProxyBeacon flags it.",
+      a: "ProxyBeacon uses AI to extract and structure information from company filings. It does not make the voting decision. Your rules determine the output, and every result is linked to its source. Missing or ambiguous information is flagged.",
     },
     {
       q: "Can I use ProxyBeacon alongside my existing proxy advisor?",
-      a: "Yes. Many teams use ProxyBeacon to generate their own in-house research alongside third-party recommendations. This gives you a second perspective — one that reflects your own policies and priorities — without requiring you to switch providers immediately.",
+      a: "Yes. ProxyBeacon can be used alongside your existing proxy advisor. Your team can compare third-party recommendations with research generated using your own policies and criteria.",
     },
     {
       q: "How quickly does ProxyBeacon generate reports?",
-      a: "Structured, fully sourced research reports can be generated within hours of a meeting being announced. For routine meetings, outputs are available almost immediately. Your team has research in hand while there's still time to act on it — rather than receiving it days before the deadline.",
+      a: "ProxyBeacon can generate structured, fully sourced research within hours of a meeting being announced. This gives your team more time to review the research before making a voting decision.",
     },
     {
       q: "Can I build and back-test my own voting policies?",
-      a: "Yes. ProxyBeacon lets you define voting policies using natural language, apply them by market, sector, or theme, and back-test them against historical voting data. You can update your rules at any time without waiting for an annual review cycle.",
+      a: "Yes. You can define voting policies in natural language, apply them by market, sector, or theme, and back-test them against historical data. Policies can also be updated as your requirements change.",
     },
     {
       q: "Is ProxyBeacon available outside the UK?",
-      a: "Yes. ProxyBeacon works with company filings from any market. It is currently being used by stewardship teams covering global equity portfolios.",
+      a: "Yes. ProxyBeacon supports company filings across global markets and can be used by stewardship teams covering international equity portfolios.",
     },
     {
       q: "How does ProxyBeacon relate to ProxySphere?",
-      a: "ProxyBeacon is the research layer and ProxySphere is the voting infrastructure. ProxyBeacon helps you with stewardship analysis; ProxySphere enables you to execute voting in pooled funds through pass-through voting. The two systems are designed to work together.",
+      a: "ProxyBeacon handles proxy research and analysis. ProxySphere handles voting in pooled funds through pass-through voting. They can work together, with ProxyBeacon supporting the research and ProxySphere supporting vote execution.",
     },
   ];
+
 
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -929,23 +936,28 @@ const FAQ = () => {
                 <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
                 <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">FAQ</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.1] mb-8">
-                Everything a <br />
-                <span className="text-[#2eb6b9]">stewardship lead asks.</span>
-              </h2>
+         <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.1] mb-8">
+  Questions about{" "}
+  <span className="text-[#2eb6b9]">ProxyBeacon.</span>
+</h2>
               <p className="text-base text-gray-400 font-light leading-relaxed mb-10 max-w-md">
-                The questions we hear most from CFOs, Heads of Stewardship, and pension trustees evaluating ProxyBeacon.
+           Find out how ProxyBeacon generates research, applies your policies, works alongside existing advisors, and supports stewardship teams across markets.
               </p>
               <div className="flex items-center gap-4 mb-8">
                 <div className="flex-1 h-[1px] bg-gray-800"></div>
-                <span className="text-[10px] font-mono text-gray-600 tracking-[0.25em] uppercase whitespace-nowrap">Still unresolved?</span>
+                <span className="text-[10px] font-mono text-gray-600 tracking-[0.25em] uppercase whitespace-nowrap">Want to know more?</span>
                 <div className="flex-1 h-[1px] bg-gray-800"></div>
               </div>
-              <a href="#contact" className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors group/cta">
-                <span>Talk to our team</span>
-                <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover/cta:bg-white group-hover/cta:w-12 transition-all duration-500"></span>
-                <IconArrowRight className="w-3 h-3" />
-              </a>
+           <a
+  href="https://www.tumelo.com/contact?hsLang=en"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors group/cta"
+>
+  <span>Talk to our team</span>
+  <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover/cta:bg-white group-hover/cta:w-12 transition-all duration-500"></span>
+  <IconArrowRight className="w-3 h-3" />
+</a>
             </div>
           </div>
 
@@ -1014,28 +1026,38 @@ const CTASection = () => (
     <div className="relative max-w-5xl mx-auto px-8 md:px-16 text-center">
       <div className="flex items-center justify-center gap-4 mb-10">
         <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-        <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Initiate Deployment</span>
+        <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Explore ProxyBeacon</span>
         <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
       </div>
 
-      <h2 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white tracking-tighter leading-[1.02] mb-10">
-        See ProxyBeacon on <br />
-        <span className="text-[#2eb6b9]">a company you care about.</span>
-      </h2>
+    <h2 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white tracking-tighter leading-[1.02] mb-10">
+  Put ProxyBeacon to work{" "}
+  <span className="text-[#2eb6b9]">on your research.</span>
+</h2>
 
-      <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mx-auto mb-16">
-        Book a 30-minute demo. We'll build a live report and flag set around your priorities.
+      <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-4xl mx-auto mb-16">
+Talk to our team about your research criteria, voting policies, and current workflow. We’ll show you how ProxyBeacon can support the work your stewardship team already does.
       </p>
 
       <div className="flex flex-col sm:flex-row justify-center gap-5 mb-20">
-        <Link to="/contact" className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:bg-white">
-          <span>Book a Demo</span>
-          <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
-        <Link to="/documentation" className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-transparent border border-gray-700 text-white text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:border-white hover:bg-white/5">
-          <span>Read Documentation</span>
-          <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
+       <a
+    href="https://www.tumelo.com/contact"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:bg-white"
+  >
+    <span>Contact Sales</span>
+    <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </a>
+  <a
+    href="https://www.tumelo.com/demo"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-transparent border border-gray-700 text-white text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:border-white hover:bg-white/5"
+  >
+    <span>Book a Demo</span>
+    <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </a>
       </div>
 
       <div className="flex items-center justify-center gap-4 mb-10">

@@ -1019,7 +1019,7 @@ Clear answers on pass-through voting, implementation, investor participation, se
               </p>
               <div className="flex items-center gap-4 mb-8">
                 <div className="flex-1 h-[1px] bg-gray-800"></div>
-                <span className="text-[10px] font-mono text-gray-600 tracking-[0.25em] uppercase whitespace-nowrap">Still unresolved?</span>
+                <span className="text-[10px] font-mono text-gray-600 tracking-[0.25em] uppercase whitespace-nowrap">Want to know more?</span>
                 <div className="flex-1 h-[1px] bg-gray-800"></div>
               </div>
           <a
