@@ -757,7 +757,6 @@ Not on its own. ProxyBeacon uses AI for the parts of proxy research it is suited
       </div>
     </section>
   );
-};
 
 // --- WHO BENEFITS ---
 const WhoBenefits = () => {
