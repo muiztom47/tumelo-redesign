@@ -136,19 +136,20 @@ const HeroTerminal = () => (
         <div className="flex items-center gap-4 mb-8">
           <div className="w-12 h-[1px] bg-[#2EB6B9]"></div>
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#2EB6B9] uppercase">
-            Voting infrastructure · Since 2018
+           Pass-Through Voting Technology · Since 2018
           </span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.05] tracking-tighter mb-8">
-          Every share your fund owns <br />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-300 to-gray-500">
-            carries a vote.
-          </span>
-        </h1>
+<h1 className="text-5xl md:text-7xl lg:text-[4.7rem] font-bold text-white leading-[1.05] tracking-tighter mb-8">
+  Give every investor{" "}
+  <span className="text-[#2eb6b9]">
+    more control
+  </span>{" "}
+  over fund votes.
+</h1>
 
         <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mb-12 border-l border-gray-800 pl-6">
-          Most of them go unread. Tumelo gives every investor in your fund a real say in how those votes are cast — automatically, transparently, and fully audited.
+        Tumelo gives investors in pooled funds a way to influence how their share of the fund’s votes is cast. They can follow a policy, vote on resolutions, or leave voting with the fund manager.
         </p>
 
             <div className="flex flex-col sm:flex-row gap-6">
@@ -156,9 +157,14 @@ const HeroTerminal = () => (
             <span className="whitespace-nowrap">See How It Works</span>
             <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
           </a>
-          <a href="#demo" className="flex items-center justify-center gap-3 px-8 py-4 bg-transparent text-white border border-gray-700 text-sm font-bold uppercase tracking-widest transition-all hover:border-[#2EB6B9] hover:text-[#2EB6B9]">
-            <span className="whitespace-nowrap">Book a Demo</span>
-          </a>
+      <a
+  href="https://www.tumelo.com/demo"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="flex items-center justify-center gap-3 px-8 py-4 bg-transparent text-white border border-gray-700 text-sm font-bold uppercase tracking-widest transition-all hover:border-[#2EB6B9] hover:text-[#2EB6B9]"
+>
+  <span className="whitespace-nowrap">Book a Demo</span>
+</a>
         </div>
 
         <div className="mt-12 flex flex-wrap items-center gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-widest">
@@ -263,9 +269,9 @@ const HeroTerminal = () => (
                 <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-2">
                   Reconciled Vote
                 </div>
-                <div className="text-white text-base font-medium tracking-tight">
-                  Apple Inc. — Say on Climate
-                </div>
+<div className="text-white text-base font-medium tracking-tight">
+  Apple Inc. <span className="inline-block w-1" /> Say on Climate
+</div>
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-[#2eb6b9] animate-pulse"></div>
@@ -315,24 +321,24 @@ const WhoWeHelp = () => {
   const audiences = [
     {
       label: "For Fund Managers",
-      headline: "Retain control. Reduce risk.",
-      description: "Differentiate your fund range, meet stewardship compliance, and prevent AUM bleed — without building infrastructure.",
+      headline: "Give investors voting choice without changing operations.",
+      description: "Let investors follow voting policies or make their own choices, while your team retains control over unallocated votes and works with its existing proxy infrastructure.",
       stat: "10x",
       statLabel: "Faster research cycles",
       accent: true,
     },
     {
       label: "For Institutional Investors",
-      headline: "Votes that reflect your mandate.",
-      description: "Ensure every vote cast on your behalf aligns with your stewardship priorities. Full cryptographic visibility, zero guesswork.",
+      headline: "Apply your voting policy across pooled investments.",
+      description: "Give your stewardship team visibility into how votes are being cast and the ability to express your organisation’s policy across the funds it invests in.",
       stat: "100%",
       statLabel: "Auditable voting record",
       accent: false,
     },
     {
       label: "For Retail Investors",
-      headline: "A real say in what you own.",
-      description: "Extend fundamental shareholder rights to the individual layer — without sacrificing the diversification of pooled capital.",
+      headline: "Have a say in the companies held through your fund.",
+      description: "Choose how your voting entitlement is used on eligible resolutions, without giving up the diversification and structure of pooled investing.",
       stat: "0",
       statLabel: "Silent abstentions",
       accent: false,
@@ -345,20 +351,20 @@ const WhoWeHelp = () => {
 
         {/* Header Block */}
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
-          <div className="max-w-2xl">
+          <div className="max-w-5xl">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
               <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">
                 Who we help
               </span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-              One infrastructure. <br />
-              <span className="text-[#2eb6b9]">Three distinct outcomes.</span>
-            </h2>
-            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-lg">
-              Tumelo sits between the fund and the shareholder. Here is what that means for you.
-            </p>
+    <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  One voting platform for{" "}
+  <span className="text-[#2eb6b9]">everyone involved in fund ownership.</span>
+</h2>
+          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-3xl">
+  Tumelo gives fund managers, institutional investors, and individual investors a way to participate in the voting decisions attached to pooled funds.
+</p>
           </div>
 
           {/* Right-side meta label */}
@@ -536,10 +542,10 @@ const TheParadigmShift = () => (
         {/* RIGHT: Metrics */}
         <div className="grid sm:grid-cols-2 gap-px bg-gray-800/40">
           {[
-            { stat: "£2bn+", label: "Pension assets routed successfully via LGIM" },
-            { stat: "100%",  label: "Resolution coverage across global markets" },
-            { stat: "0",     label: "Shares left un-voted under active policies" },
-            { stat: "10x",   label: "Faster proxy research & exception handling" },
+            { stat: "£2bn+", label: "Pension assets already routed through Tumelo via LGIM" },
+            { stat: "100%",  label: "Resolutions covered across the markets where funds invest" },
+            { stat: "0",     label: "Shares left unvoted under active investor voting policies" },
+            { stat: "10x",   label: "Faster proxy research and exception handling for stewardship teams" },
           ].map((metric, i) => (
             <div
               key={i}
@@ -585,7 +591,7 @@ const ProductArchitecture = () => {
         "Gives every underlying investor in a pooled fund a direct route to vote their own shares, or delegate to a policy. No spreadsheet required.",
       visual: <NetworkGraph />,
       stats: [
-        { value: "2,000+", label: "Investors per fund" },
+        { value: "£300bn+", label: "AUM on platform" },
         { value: "100%",   label: "Audit coverage" },
         { value: "0",      label: "Manual reconciliations" },
       ],
@@ -604,9 +610,9 @@ const ProductArchitecture = () => {
         "Reads every resolution before a meeting, applies your stewardship policy consistently, and flags only the ones that need a human decision.",
       visual: <AILens />,
       stats: [
-        { value: "48 hrs", label: "Research turnaround" },
+        { value: "Same-day", label: "Research turnaround" },
         { value: "100%",   label: "Source-traceable" },
-        { value: "10x",    label: "Faster review cycles" },
+    { value: "Hours", label: "Saved per meeting" },
       ],
       features: [
         "Reads filings and resolution text automatically.",
@@ -628,15 +634,16 @@ const ProductArchitecture = () => {
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
               <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">
-                Product Architecture
+                Platform
               </span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-              Two engines. <br />
-              <span className="text-[#2eb6b9]">One register.</span>
-            </h2>
-            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-              The voting engine executes. The research engine decides. Together they close the loop on stewardship.
+          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  Two products for the{" "}
+  <br className="hidden md:block" />
+  <span className="text-[#2eb6b9]">two sides of voting.</span>
+</h2>
+            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl">
+            Tumelo combines pass-through voting for pooled funds with AI-assisted proxy research, covering both the execution of investor voting instructions and the research behind institutional voting decisions.
             </p>
           </div>
 
@@ -692,7 +699,7 @@ const ProductArchitecture = () => {
                 </p>
 
                 <p className="text-sm text-gray-400 font-light leading-relaxed mb-10">
-                  Gives every underlying investor in a pooled fund a direct route to vote their own shares, or delegate to a policy. No spreadsheet required.
+     ProxySphere connects investors in pooled funds to the voting rights attached to their investments. They can follow a voting policy, make individual choices, or delegate their voting power back to the fund manager.
                 </p>
 
                 {/* Stat strip */}
@@ -700,7 +707,7 @@ const ProductArchitecture = () => {
                   {[
                     { value: "2,000+", label: "Investors/fund" },
                     { value: "100%",   label: "Audit" },
-                    { value: "0",      label: "Manual recon" },
+                 { value: "0", label: "Manual recon" },
                   ].map((stat, j) => (
                     <div key={j} className="bg-[#030509] p-4">
                       <div className="text-xl font-light text-white tracking-tighter mb-1">
@@ -731,14 +738,16 @@ const ProductArchitecture = () => {
                   ))}
                 </div>
 
-                <Link
-                  to="/proxysphere"
-                  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
-                >
-                  <span>Explore ProxySphere</span>
-                  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
-                  <IconArrowRight className="w-3 h-3" />
-                </Link>
+              <a
+  href="/proxysphere"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
+>
+  <span>Explore ProxySphere</span>
+  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
+  <IconArrowRight className="w-3 h-3" />
+</a>
               </div>
             </div>
 
@@ -771,15 +780,15 @@ const ProductArchitecture = () => {
                 </p>
 
                 <p className="text-sm text-gray-400 font-light leading-relaxed mb-10">
-                  Reads every resolution before a meeting, applies your stewardship policy consistently, and flags only the ones that need a human decision.
+ProxyBeacon reviews meeting materials and resolutions, applies your stewardship policy and highlights exceptions so your team can focus its time on decisions that need judgement.
                 </p>
 
                 {/* Stat strip */}
                 <div className="grid grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40 mb-10">
-                  {[
-                    { value: "48 hrs", label: "Turnaround" },
-                    { value: "100%",   label: "Traceable" },
-                    { value: "10x",    label: "Faster" },
+                {[
+  { value: "Same-day", label: "Turnaround" },
+  { value: "100%",     label: "Traceable" },
+  { value: "Hours",    label: "Saved/meeting" },
                   ].map((stat, j) => (
                     <div key={j} className="bg-[#030509] p-4">
                       <div className="text-xl font-light text-white tracking-tighter mb-1">
@@ -810,14 +819,16 @@ const ProductArchitecture = () => {
                   ))}
                 </div>
 
-                <Link
-                  to="/proxybeacon"
-                  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
-                >
-                  <span>Explore ProxyBeacon</span>
-                  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
-                  <IconArrowRight className="w-3 h-3" />
-                </Link>
+            <a
+  href="/proxybeacon"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
+>
+  <span>Explore ProxyBeacon</span>
+  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
+  <IconArrowRight className="w-3 h-3" />
+</a>
               </div>
             </div>
 
@@ -856,7 +867,7 @@ const EditorialCaseStudy = () => (
         <div className="relative z-10">
           <QuoteMark className="text-[#2EB6B9] mb-8 opacity-80" />
           <h2 className="text-3xl md:text-5xl font-serif text-white leading-[1.3] mb-12">
-            "Tumelo is an extremely agile, collaborative, and results-focused team. They are a pleasure to work with."
+            “Tumelo is an extremely agile, collaborative, and results-focused team. They are a pleasure to work with.”
           </h2>
           <div className="flex items-center gap-6">
             <div className="w-16 h-[1px] bg-gray-700"></div>
@@ -877,7 +888,7 @@ const EditorialCaseStudy = () => (
             Rolling out pass-through voting for a £2bn pension fund.
           </h3>
           <p className="text-gray-400 font-light leading-relaxed mb-10">
-            Discover how Legal & General Investment Management (LGIM) used Tumelo's infrastructure to give their underlying pension contributors unprecedented visibility and control.
+            Discover how Legal & General Investment Management (LGIM) used Tumelo’s infrastructure to give their underlying pension contributors unprecedented visibility and control.
           </p>
           <a
             href="https://25524212.hs-sites-eu1.com/hubfs/LGIM%20announcement/Tumelo%20powers%20LGIMs%20pass-through%20voting%20offering.pdf"
@@ -1081,52 +1092,51 @@ const FAQ = () => {
 // --- SECTION 7: SECURITY SPECS ---
 const SecuritySpecs = () => {
   const specs = [
-    {
-      title: "ISO 27001",
-      subtitle: "Information Security",
-      desc: "Certified Information Security Management System. Audited annually by an accredited third party.",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
-          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
-          <path d="m9 12 2 2 4-4" />
-        </svg>
-      ),
-    },
-    {
-      title: "SOC 2",
-      subtitle: "Type II Attested",
-      desc: "Independently audited organizational and technical controls across all five trust principles.",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
-          <path d="M9 11l3 3L22 4" />
-          <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" />
-        </svg>
-      ),
-    },
-    {
-      title: "AES-256",
-      subtitle: "Encryption at Rest",
-      desc: "Military-grade symmetric encryption protecting all data at rest, with per-tenant key isolation.",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
-          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-        </svg>
-      ),
-    },
-    {
-      title: "TLS 1.3",
-      subtitle: "In-Transit Protocol",
-      desc: "Modern cryptographic transport protocol ensuring end-to-end encrypted communication channels.",
-      icon: (
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
-          <circle cx="12" cy="12" r="10" />
-          <path d="M2 12h20" />
-          <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-        </svg>
-      ),
-    },
-  ];
+  {
+    title: "ISO 27001",
+    subtitle: "Information Security",
+    desc: "Tumelo maintains ISO 27001 certification for its information security management system.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        <path d="m9 12 2 2 4-4" />
+      </svg>
+    ),
+  },
+  {
+    title: "AES-256",
+    subtitle: "Encryption at Rest",
+    desc: "Data stored within Tumelo is protected using AES-256 encryption.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+      </svg>
+    ),
+  },
+  {
+    title: "TLS 1.2+",
+    subtitle: "Encryption in Transit",
+    desc: "Data transmitted between systems is protected using TLS 1.2 or higher.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+        <path d="M12 2 4 5v6c0 5.25 3.4 9.45 8 11 4.6-1.55 8-5.75 8-11V5l-8-3z" />
+        <path d="M8.5 12 11 14.5 15.5 10" />
+      </svg>
+    ),
+  },
+  {
+    title: "External Testing",
+    subtitle: "Independent Security Testing",
+    desc: "Tumelo conducts external penetration testing at least annually through independent security specialists.",
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square">
+        <path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4L15 11l-2-2 1.7-1.7z" />
+        <path d="m17 4 3 3" />
+      </svg>
+    ),
+  },
+];
 
   return (
     <section className="py-32 bg-[#0A0E17] border-y border-gray-800/60 relative overflow-hidden">
@@ -1144,11 +1154,12 @@ const SecuritySpecs = () => {
                 Enterprise Security
               </span>
             </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.05] mb-6">
-              Built to be audited.
-            </h2>
-            <p className="text-base text-gray-400 font-light leading-relaxed max-w-xl">
-              Every layer of Tumelo is designed for the scrutiny that institutional stewardship demands. Certified, audited, encrypted, and traceable end-to-end.
+         <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.05] mb-6">
+  <span className="text-[#2eb6b9]">Security controls</span>{" "}
+  for institutional investment firms.
+</h2>
+            <p className="text-base text-gray-400 font-light leading-relaxed max-w-2xl">
+             Tumelo uses established security controls across data storage, system access and data transmission, supported by ISO 27001 certification, independent penetration testing and continuous security monitoring.
             </p>
           </div>
 
@@ -1228,32 +1239,35 @@ const SecuritySpecs = () => {
 
 // --- SECTION 8: PRESS COVERAGE ---
 const PressCoverage = () => {
-  const press = [
-    {
-      pub: "The Times",
-      date: "2024",
-      quote: "Named an \"innovative player\" in shareholder voting.",
-      author: "James Kirkup",
-      role: "Director, Social Market Foundation",
-      desc: "Highlights the growing demand among retail investors for a say in their investments.",
-    },
-    {
-      pub: "Forbes",
-      date: "2024",
-      quote: "The emergence and direction of shareholder empowerment.",
-      author: "Georgia Stewart",
-      role: "CEO, Tumelo",
-      desc: "Discusses the origins of Tumelo, our core purpose, and the future of institutional proxy voting.",
-    },
-    {
-      pub: "Bloomberg",
-      date: "2025",
-      quote: "At the forefront of a movement to bridge the gap.",
-      author: "Matthew Brooker",
-      role: "Opinion Editor, Bloomberg",
-      desc: "Analyzes Tumelo's role in connecting ultimate shareholders with the companies they collectively own.",
-    },
-  ];
+const press = [
+  {
+    pub: "The Times",
+    date: "2024",
+    quote: "Named an \"innovative player\" in shareholder voting.",
+    author: "James Kirkup",
+    role: "Director, Social Market Foundation",
+    desc: "Examines the growing demand for greater investor influence over fund voting.",
+    url: "https://www.tumelo.com/press/tumelo-named-an-innovative-player-in-shareholder-voting-by-the-times?hsLang=en",
+  },
+  {
+    pub: "Forbes",
+    date: "2024",
+    quote: "The emergence and direction of shareholder empowerment.",
+    author: "Georgia Stewart",
+    role: "CEO, Tumelo",
+    desc: "Explores why investor voting is changing, and where shareholder empowerment is heading.",
+    url: "https://www.tumelo.com/press/tumelo-in-forbes-tumelos-timing-is-good?hsLang=en",
+  },
+  {
+    pub: "Bloomberg",
+    date: "2025",
+    quote: "At the forefront of a movement to bridge the gap.",
+    author: "Matthew Brooker",
+    role: "Opinion Editor, Bloomberg",
+    desc: "Looks at how Tumelo connects investors with the companies held through their funds.",
+    url: "https://www.tumelo.com/press/tumelo-featured-in-bloomberg-and-washington-post-on-investor-voting?hsLang=en",
+  },
+];
 
   return (
     <section id="research" className="py-40 bg-[#030509] border-t border-gray-800/60 relative">
@@ -1273,7 +1287,7 @@ const PressCoverage = () => {
               <span className="text-[#2eb6b9]">institutional press.</span>
             </h2>
             <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-              Analysis and commentary on Tumelo's role in the shareholder-empowerment movement, from the publications institutional investors actually read.
+    Independent coverage of Tumelo’s work connecting investors to fund voting, and the wider shift towards greater shareholder participation.
             </p>
           </div>
 
@@ -1288,11 +1302,13 @@ const PressCoverage = () => {
         {/* Press Grid */}
         <div className="grid md:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
           {press.map((item, i) => (
-            <a
-              key={i}
-              href="#"
-              className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-12 transition-all duration-500 flex flex-col"
-            >
+          <a
+  key={i}
+  href={item.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-12 transition-all duration-500 flex flex-col"
+>
               {/* Top hairline on hover */}
               <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2eb6b9] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"></div>
 
@@ -1368,29 +1384,32 @@ const PressCoverage = () => {
 };
 // --- SECTION 9: RESEARCH & INSIGHTS ---
 const ResearchAndInsights = () => {
-  const insights = [
-    {
-      type: "Case Study",
-      category: "Field Report",
-      title: "Landmark partnership enables £2bn Camden Pension Fund to customise stewardship.",
-      read: "8 min read",
-      date: "Q1 2025",
-    },
-    {
-      type: "Roundtable",
-      category: "Discussion",
-      title: "The role of client-directed voting in modern institutional stewardship.",
-      read: "12 min read",
-      date: "Q4 2024",
-    },
-    {
-      type: "White Paper",
-      category: "Research",
-      title: "Industry experts explore the emergence of pass-through voting and its future.",
-      read: "24 min read",
-      date: "Q3 2024",
-    },
-  ];
+ const insights = [
+  {
+    type: "Case Study",
+    category: "Field Report",
+    title: "Landmark partnership enables £2bn Camden Pension Fund to customise stewardship.",
+    read: "8 min read",
+    date: "Q1 2025",
+    url: "https://www.tumelo.com/insights/tumelo-powers-new-landmark-pass-through-voting-solution-for-2bn-camden-pension-fund?hsLang=en",
+  },
+  {
+    type: "Roundtable",
+    category: "Discussion",
+    title: "The role of client-directed voting in modern institutional stewardship.",
+    read: "12 min read",
+    date: "Q4 2024",
+    url: "https://www.tumelo.com/roundtable-the-role-of-client-directed-voting-in-stewardship?hsLang=en",
+  },
+  {
+    type: "White Paper",
+    category: "Research",
+    title: "Industry experts explore the emergence of pass-through voting and its future.",
+    read: "24 min read",
+    date: "Q3 2024",
+    url: "https://www.tumelo.com/a-deep-dive-into-pass-through-voting?hsLang=en",
+  },
+];
 
   return (
     <section className="py-40 bg-[#05080F] border-t border-gray-800/60 relative overflow-hidden">
@@ -1419,10 +1438,12 @@ const ResearchAndInsights = () => {
 
           {/* Right-side CTA */}
           <div className="hidden lg:flex flex-col items-end gap-4 pb-2">
-            <a
-              href="#"
-              className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors group/all"
-            >
+           <a
+  href="https://www.tumelo.com/insights"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors group/all"
+>
               <span>View All Insights</span>
               <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover/all:bg-white group-hover/all:w-12 transition-all duration-500"></span>
               <IconArrowRight className="w-3 h-3" />
@@ -1433,11 +1454,13 @@ const ResearchAndInsights = () => {
         {/* Insights Grid */}
         <div className="grid md:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
           {insights.map((item, i) => (
-            <a
-              key={i}
-              href="#"
-              className="group relative bg-[#05080F] hover:bg-[#0A0E17] p-10 lg:p-12 transition-all duration-500 flex flex-col min-h-[440px]"
-            >
+           <a
+  key={i}
+  href={item.url}
+  target="_blank"
+  rel="noopener noreferrer"
+  className="group relative bg-[#05080F] hover:bg-[#0A0E17] p-10 lg:p-12 transition-all duration-500 flex flex-col min-h-[440px]"
+>
               {/* Top hairline on hover */}
               <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2eb6b9] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"></div>
 
