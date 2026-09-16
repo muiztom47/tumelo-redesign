@@ -52,6 +52,49 @@ const IconGlobe = ({ className = "w-5 h-5" }) => (
   </svg>
 );
 
+
+// ==========================================
+// SCROLL REVEAL WRAPPER
+// ==========================================
+const Reveal = ({ children, delay = 0, className = "" }) => {
+  const ref = React.useRef(null);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(24px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+
+ 
 // ==========================================
 // 2. ELITE SVG VISUALIZATIONS
 // ==========================================
@@ -120,6 +163,16 @@ const QuoteMark = ({ className = "w-10 h-10" }) => (
 // --- SECTION 1: HERO (Now with clear outcome statement) ---
 const HeroTerminal = () => (
   <section className="relative min-h-[95vh] flex items-center pt-32 pb-20 overflow-hidden bg-[#030509]">
+    <style>{`
+      @keyframes heroFadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hero-anim {
+        opacity: 0;
+        animation: heroFadeUp 0.9s ease-out forwards;
+      }
+    `}</style>
     <div className="absolute inset-0 z-0 pointer-events-none">
       {/* Atmospheric teal glow - top right */}
       <div className="absolute top-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(0,194,168,0.10)_0,transparent_50%)] blur-[120px]"></div>
@@ -133,14 +186,14 @@ const HeroTerminal = () => (
 
     <div className="relative z-10 max-w-[90rem] mx-auto px-8 md:px-16 w-full grid lg:grid-cols-[1.2fr_1fr] gap-16 lg:gap-24 items-center">
       <div className="max-w-3xl">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-4 mb-8 hero-anim" style={{ animationDelay: "0ms" }}>
           <div className="w-12 h-[1px] bg-[#2EB6B9]"></div>
           <span className="text-[11px] font-mono tracking-[0.2em] text-[#2EB6B9] uppercase">
            Pass-Through Voting Technology · Since 2018
           </span>
         </div>
 
-<h1 className="text-5xl md:text-7xl lg:text-[4.7rem] font-bold text-white leading-[1.05] tracking-tighter mb-8">
+<h1 className="text-5xl md:text-7xl lg:text-[4.7rem] font-bold text-white leading-[1.05] tracking-tighter mb-8 hero-anim" style={{ animationDelay: "120ms" }}>
   Give every investor{" "}
   <span className="text-[#2eb6b9]">
     more control
@@ -148,11 +201,11 @@ const HeroTerminal = () => (
   over fund votes.
 </h1>
 
-        <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mb-12 border-l border-gray-800 pl-6">
+        <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mb-12 border-l border-gray-800 pl-6 hero-anim" style={{ animationDelay: "240ms" }}>
         Tumelo gives investors in pooled funds a way to influence how their share of the fund’s votes is cast. They can follow a policy, vote on resolutions, or leave voting with the fund manager.
         </p>
 
-            <div className="flex flex-col sm:flex-row gap-6">
+            <div className="flex flex-col sm:flex-row gap-6 hero-anim" style={{ animationDelay: "360ms" }}>
           <a href="#solutions" className="group flex items-center justify-center gap-3 px-8 py-4 bg-[#2EB6B9] text-[#030509] text-sm font-bold uppercase tracking-widest transition-all hover:bg-white">
             <span className="whitespace-nowrap">See How It Works</span>
             <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
@@ -167,13 +220,13 @@ const HeroTerminal = () => (
 </a>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-widest">
+        <div className="mt-12 flex flex-wrap items-center gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-widest hero-anim" style={{ animationDelay: "480ms" }}>
           <div className="flex items-center gap-2"><IconShield className="w-4 h-4" /> ISO 27001</div>
           <div className="flex items-center gap-2"><IconGlobe className="w-4 h-4" /> UK · US · EU</div>
         </div>
       </div>
       {/* Live Pass-Through Routing Visual */}
-      <div className="relative hidden lg:block w-full">
+      <div className="relative hidden lg:block w-full hero-anim" style={{ animationDelay: "300ms" }}>
         {/* Glow behind panel */}
         <div className="absolute -inset-12 bg-[#2eb6b9] opacity-[0.07] blur-[100px] rounded-full pointer-events-none"></div>
 
@@ -349,8 +402,9 @@ const WhoWeHelp = () => {
     <section id="who-we-help" className="py-40 bg-[#030509] border-t border-gray-800/60 relative">
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
 
-        {/* Header Block */}
-        <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
+     {/* Header Block */}
+<Reveal>
+<div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
           <div className="max-w-5xl">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
@@ -374,7 +428,8 @@ const WhoWeHelp = () => {
             </span>
             <div className="w-32 h-[1px] bg-gray-800"></div>
           </div>
-        </div>
+          </div>
+        </Reveal>
 
         {/* Audience Grid */}
         <div className="grid md:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
@@ -495,6 +550,7 @@ const TheParadigmShift = () => (
         {/* LEFT: Narrative */}
         <div>
           <div className="sticky top-32">
+          <Reveal>
             {/* Eyebrow */}
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
@@ -536,10 +592,12 @@ const TheParadigmShift = () => (
                 </li>
               ))}
             </ul>
+          </Reveal>
           </div>
         </div>
 
         {/* RIGHT: Metrics */}
+        <Reveal delay={150}>
         <div className="grid sm:grid-cols-2 gap-px bg-gray-800/40">
           {[
             { stat: "£2bn+", label: "Pension assets already routed through Tumelo via LGIM" },
@@ -574,6 +632,7 @@ const TheParadigmShift = () => (
             </div>
           ))}
         </div>
+        </Reveal>
 
       </div>
     </div>
@@ -629,6 +688,7 @@ const ProductArchitecture = () => {
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
 
         {/* Header */}
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
           <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-8">
@@ -654,6 +714,7 @@ const ProductArchitecture = () => {
             <div className="w-40 h-[1px] bg-gray-800"></div>
           </div>
         </div>
+        </Reveal>
 
         {/* Products — side-by-side with vertical divider */}
         <div className="relative">
@@ -668,6 +729,7 @@ const ProductArchitecture = () => {
             </div>
           </div>
 
+          <Reveal delay={150}>
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
 
             {/* Product 01 — ProxySphere */}
@@ -833,6 +895,7 @@ ProxyBeacon reviews meeting materials and resolutions, applies your stewardship 
             </div>
 
           </div>
+        </Reveal>
         </div>
 
         {/* Closing thesis */}
@@ -910,41 +973,45 @@ const EditorialCaseStudy = () => (
 
 
 // --- SECTION 8: FAQ (Objection handling) ---
+
 const FAQ = () => {
   const faqs = [
     {
-      q: "How is this different from our proxy advisor?",
-      a: "Proxy advisors sell you a recommendation. We give you the infrastructure to generate your own — applying your firm's policy consistently across every meeting, with a full audit trail. You can use ProxyBeacon alongside your advisor or replace them entirely.",
+      q: "How is Tumelo different from a proxy advisor?",
+      a: "Proxy advisors give you a recommendation. Tumelo gives you the infrastructure to apply your own policy consistently across every meeting, with a full audit trail. You can run ProxyBeacon alongside your advisor or replace them entirely.",
     },
-    {
-      q: "Can we trust AI with fiduciary decisions?",
-      a: "The AI extracts and structures information — it does not make judgment calls. Your policies, your thresholds, your priorities determine every output. Every conclusion links back to the exact page and paragraph in the source filing, so your team can verify in seconds.",
-    },
+   {
+    q: "Can we trust AI with fiduciary decisions?",
+    a: "The AI extracts and structures information. It does not make voting decisions. Your policies determine every output, and every conclusion links back to the exact page and paragraph in the source filing so your team can verify it in seconds.",
+  },
     {
       q: "How long does implementation take?",
-      a: "Most institutions are live within 6–8 weeks. We handle the custodial data mapping, policy ingestion, and investor onboarding. Your operations team does not need to build anything.",
+      a: "Most implementations take 6–8 weeks. Tumelo supports data mapping, policy configuration, system integration, and investor onboarding as part of the implementation process.",
     },
     {
-      q: "Does this work for both institutional and retail investors?",
-      a: "Yes. ProxySphere is the only engine designed to synthesise institutional mandates and retail platforms within the same pooled vehicle. No bifurcated systems. No segregation.",
+      q: "Can institutional and retail investors use Tumelo?",
+      a: "Yes. ProxySphere supports both institutional and retail investors within the same pooled fund. Investors can follow an available voting policy, make individual voting choices, or leave their voting with the fund manager.",
     },
     {
-      q: "What happens if an investor doesn't vote?",
-      a: "No vote goes un-voted. Unallocated shares default immediately to a stated house policy — ensuring your fund's voting record is never silent. You define the default. We execute it.",
-    },
+    q: "What happens if an investor doesn’t vote?",
+    a: "Un-voted shares default automatically to a stated house policy. You define the default. Tumelo executes it, and the outcome is recorded in the audit trail. No vote goes unrecorded.",
+  },
     {
-      q: "Which jurisdictions do you support?",
-      a: "We are live across the UK, EU, and US markets. Our resolution coverage spans all major indices, and we are actively expanding into APAC.",
+      q: "Which markets does Tumelo support?",
+      a: "Tumelo supports voting across the UK, EU, and US markets, with coverage expanding into additional markets. Specific resolution and market coverage depends on the fund and its underlying holdings.",
     },
     {
       q: "How is our data protected?",
-      a: "ISO 27001 certified. SOC 2 Type II audited. AES-256 encryption at rest, TLS 1.3 in transit. All data is hosted in region-specific infrastructure with full cryptographic auditability.",
+      a: "Tumelo maintains ISO 27001 certification and uses AES-256 encryption for data at rest and TLS 1.2 or higher for data in transit. Tumelo also conducts external penetration testing at least annually and maintains ongoing security monitoring.",
     },
     {
-      q: "What does pricing look like?",
-      a: "Pricing is based on AUM routed and meeting volume. Most institutional deployments are structured as an annual license. Contact our team for a tailored proposal.",
+      q: "How is Tumelo priced?",
+      a: "Pricing depends on factors such as assets routed through Tumelo and voting or meeting volume. Institutional deployments are typically structured as an annual licence. Contact the team for pricing based on your requirements.",
     },
   ];
+
+
+
 
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -959,6 +1026,7 @@ const FAQ = () => {
           {/* Left: Title Block */}
           <div>
             <div className="sticky top-32">
+            <Reveal>
 
               {/* Eyebrow */}
               <div className="flex items-center gap-4 mb-8">
@@ -969,14 +1037,14 @@ const FAQ = () => {
               </div>
 
               {/* Headline */}
-              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.1] mb-8">
-                Everything a <br />
-                <span className="text-[#2eb6b9]">stewardship lead asks.</span>
-              </h2>
+         <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.1] mb-8">
+  Questions about <br />
+  <span className="text-[#2eb6b9]">implementing Tumelo.</span>
+</h2>
 
               {/* Sub-headline */}
               <p className="text-base text-gray-400 font-light leading-relaxed mb-10 max-w-md">
-                The questions we hear most from CFOs, Heads of Stewardship, and pension trustees evaluating Tumelo.
+              Clear answers on implementation, investor voting, proxy research, security, coverage, and pricing.
               </p>
 
               {/* Divider */}
@@ -990,7 +1058,9 @@ const FAQ = () => {
 
               {/* CTA */}
               <a
-                href="#contact"
+             href="https://www.tumelo.com/contact"
+  target="_blank"
+  rel="noopener noreferrer"
                 className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors group/cta"
               >
                 <span>Talk to our team</span>
@@ -998,10 +1068,12 @@ const FAQ = () => {
                 <IconArrowRight className="w-3 h-3" />
               </a>
 
+            </Reveal>
             </div>
           </div>
 
           {/* Right: FAQ List */}
+          <Reveal delay={150}>
           <div className="border-t border-gray-800/40">
             {faqs.map((faq, i) => {
               const isOpen = openIndex === i;
@@ -1063,6 +1135,7 @@ const FAQ = () => {
               );
             })}
           </div>
+          </Reveal>
 
         </div>
 
@@ -1146,6 +1219,7 @@ const SecuritySpecs = () => {
       <div className="relative max-w-[90rem] mx-auto px-8 md:px-16">
 
         {/* Header */}
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-8">
@@ -1170,8 +1244,10 @@ const SecuritySpecs = () => {
             <div className="w-40 h-[1px] bg-gray-800"></div>
           </div>
         </div>
+        </Reveal>
 
         {/* Specs Grid */}
+        <Reveal delay={150}>
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-800/40 border border-gray-800/40">
           {specs.map((spec, i) => (
             <div
@@ -1213,6 +1289,7 @@ const SecuritySpecs = () => {
             </div>
           ))}
         </div>
+        </Reveal>
 
         {/* Bottom strip */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-10 pt-8 border-t border-gray-800/40">
@@ -1274,6 +1351,7 @@ const press = [
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
 
         {/* Header */}
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
           <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-8">
@@ -1298,8 +1376,10 @@ const press = [
             <div className="w-40 h-[1px] bg-gray-800"></div>
           </div>
         </div>
+        </Reveal>
 
         {/* Press Grid */}
+        <Reveal delay={150}>
         <div className="grid md:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
           {press.map((item, i) => (
           <a
@@ -1360,6 +1440,7 @@ const press = [
             </a>
           ))}
         </div>
+        </Reveal>
 
         {/* Bottom strip */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-10 pt-8 border-t border-gray-800/40">
@@ -1419,6 +1500,7 @@ const ResearchAndInsights = () => {
       <div className="relative max-w-[90rem] mx-auto px-8 md:px-16">
 
         {/* Header */}
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
           <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-8">
@@ -1450,8 +1532,10 @@ const ResearchAndInsights = () => {
             </a>
           </div>
         </div>
+        </Reveal>
 
         {/* Insights Grid */}
+        <Reveal delay={150}>
         <div className="grid md:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
           {insights.map((item, i) => (
            <a
@@ -1507,6 +1591,7 @@ const ResearchAndInsights = () => {
             </a>
           ))}
         </div>
+        </Reveal>
 
         {/* Bottom strip */}
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-10 pt-8 border-t border-gray-800/40">
@@ -1543,45 +1628,51 @@ const CTASection = () => (
     {/* Vignette */}
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#030509_85%)] pointer-events-none"></div>
 
+    <Reveal>
     <div className="relative max-w-5xl mx-auto px-8 md:px-16 text-center">
 
       {/* Eyebrow */}
       <div className="flex items-center justify-center gap-4 mb-10">
         <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
         <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">
-          Initiate Deployment
+         Explore Investor Voting With Tumelo
         </span>
         <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
       </div>
 
       {/* Headline */}
-      <h2 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white tracking-tighter leading-[1.02] mb-10">
-        Ready to give every <br />
-        <span className="text-[#2eb6b9]">investor a vote?</span>
-      </h2>
+<h2 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white tracking-tighter leading-[1.02] mb-10">
+  Give investors a direct <br />
+  <span className="text-[#2eb6b9]">role in fund voting.</span>
+</h2>
 
       {/* Sub-headline */}
       <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mx-auto mb-16">
-        Join the asset managers, pension schemes, and platforms modernising stewardship for the next decade.
+     Talk to our team about your fund structure, voting process, and investor requirements, and see where Tumelo can fit.
+     
       </p>
 
-      {/* CTA Buttons */}
-      <div className="flex flex-col sm:flex-row justify-center gap-5 mb-20">
-        <Link
-          to="/contact"
-          className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:bg-white"
-        >
-          <span>Contact Sales</span>
-          <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
-        <Link
-          to="/documentation"
-          className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-transparent border border-gray-700 text-white text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:border-white hover:bg-white/5"
-        >
-          <span>Read Documentation</span>
-          <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
-      </div>
+    {/* CTA Buttons */}
+<div className="flex flex-col sm:flex-row justify-center gap-5 mb-20">
+  <a
+    href="https://www.tumelo.com/contact"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:bg-white"
+  >
+    <span>Contact Sales</span>
+    <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </a>
+  <a
+    href="https://www.tumelo.com/demo"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-transparent border border-gray-700 text-white text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:border-white hover:bg-white/5"
+  >
+    <span>Book a Demo</span>
+    <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </a>
+</div>
 
       {/* Divider */}
       <div className="flex items-center justify-center gap-4 mb-10">
@@ -1604,16 +1695,16 @@ const CTASection = () => (
         ))}
       </div>
 
-      {/* Bottom compliance strip */}
+   {/* Bottom compliance strip */}
       <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-[10px] font-mono text-gray-600 tracking-[0.25em] uppercase">
         <span className="flex items-center gap-2">
           <span className="w-1.5 h-1.5 rounded-full bg-[#2eb6b9]"></span>
           ISO 27001
         </span>
         <span className="text-gray-800">·</span>
-        <span>SOC 2 Type II</span>
-        <span className="text-gray-800">·</span>
         <span>AES-256</span>
+        <span className="text-gray-800">·</span>
+        <span>TLS 1.2+</span>
         <span className="text-gray-800">·</span>
         <span>UK</span>
         <span className="text-gray-800">·</span>
@@ -1621,73 +1712,9 @@ const CTASection = () => (
         <span className="text-gray-800">·</span>
         <span>EU</span>
       </div>
-
     </div>
+    </Reveal>
   </section>
-);
-
-// --- SECTION 11: FOOTER ---
-const EliteFooter = () => (
-  <footer className="bg-[#030509] border-t border-gray-800/60 pt-24 pb-12">
-    <div className="max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 lg:gap-8 mb-24">
-        <div className="col-span-2 lg:col-span-2 pr-12">
-          <TumeloLogo className="mb-8" />
-          <p className="text-gray-500 font-light text-sm leading-relaxed mb-8 max-w-xs">
-            Voting infrastructure for fund managers, institutional investors, and retail investors. Bristol & New York.
-          </p>
-          <div className="flex gap-4">
-            {["LinkedIn", "Twitter"].map(social => (
-              <a key={social} href="#" className="text-xs font-mono text-gray-600 uppercase tracking-widest hover:text-[#2EB6B9] transition-colors">
-                {social}
-              </a>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Products</h4>
-          <ul className="space-y-4">
-            {["ProxySphere", "ProxyBeacon", "API Docs", "Security"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Who we help</h4>
-          <ul className="space-y-4">
-            {["Fund Managers", "Institutional Investors", "Retail Investors", "Case Studies"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Company</h4>
-          <ul className="space-y-4">
-            {["About Us", "Careers", "Newsroom", "Contact"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
-          <ul className="space-y-4">
-            {["Privacy", "Terms", "Cookies", "Compliance"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-gray-600 font-mono text-[10px] uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} Tumelo Ltd. All rights reserved.
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#2EB6B9] animate-pulse"></div>
-          <span className="text-gray-500 font-mono text-[10px] uppercase tracking-widest">All Systems Operational</span>
-        </div>
-      </div>
-    </div>
-  </footer>
 );
 
 // ==========================================
@@ -1724,7 +1751,6 @@ export default function Home() {
         <CTASection />
       </main>
 
-      <EliteFooter />
     </div>
   );
 }

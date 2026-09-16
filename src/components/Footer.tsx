@@ -1,39 +1,120 @@
+import React from "react";
+import { Link } from "react-router-dom";
+
+const TumeloLogo = ({ className = "h-7" }) => (
+  <svg className={className} viewBox="0 0 120 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <text x="0" y="24" fontFamily="Inter, sans-serif" fontWeight="700" letterSpacing="-0.05em" fontSize="26" fill="#ffffff">
+      tume<tspan fill="#2EB6B9">lo</tspan>
+    </text>
+  </svg>
+);
+
 export default function Footer() {
   return (
-    <footer id="contact" className="border-t border-rule bg-ink text-paper">
-      <div className="container-page grid gap-10 py-14 md:grid-cols-[1.2fr_1fr_1fr]">
-        <div>
-          <span className="font-serif text-lg font-medium">Tumelo</span>
-          <p className="mt-3 max-w-xs text-sm text-paper/70">
-            Voting infrastructure for fund managers, institutional investors
-            and retail investors. Bristol &amp; New York.
-          </p>
+    <footer className="bg-[#030509] border-t border-gray-800/60 pt-24 pb-12">
+      <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 lg:gap-8 mb-24">
+          <div className="col-span-2 lg:col-span-2 pr-12">
+            <TumeloLogo className="mb-8" />
+            <p className="text-gray-500 font-light text-sm leading-relaxed mb-8 max-w-xs">
+              Voting infrastructure for fund managers, institutional investors, and retail investors. Bristol &amp; New York.
+            </p>
+            <div className="flex gap-4">
+              {["LinkedIn", "Twitter"].map((social) => (
+                <a
+                  key={social}
+                  href="#"
+                  className="text-xs font-mono text-gray-600 uppercase tracking-widest hover:text-[#2EB6B9] transition-colors"
+                >
+                  {social}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Products</h4>
+            <ul className="space-y-4">
+              {["ProxySphere", "ProxyBeacon", "API Docs", "Security"].map((link) => (
+                <li key={link}>
+                  <Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Who we help</h4>
+            <ul className="space-y-4">
+              {["Fund Managers", "Institutional Investors", "Retail Investors", "Case Studies"].map((link) => (
+                <li key={link}>
+                  <Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Company</h4>
+            <ul className="space-y-4">
+              {["About Us", "Careers", "Newsroom", "Contact"].map((link) => (
+                <li key={link}>
+                  <Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div>
+            <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
+            <ul className="space-y-4">
+              {["Privacy", "Terms", "Cookies", "Compliance"].map((link) => (
+                <li key={link}>
+                  <Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        <div className="text-sm">
-          <p className="mb-3 text-paper/50">Bristol</p>
-          <p className="text-paper/80">
-            Runway East
-            <br />
-            1 Victoria Street
-            <br />
-            Bristol, BS1 6AA
-          </p>
+
+        <div className="pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-center gap-4">
+          <div className="text-gray-600 font-mono text-[10px] uppercase tracking-widest">
+            &copy; {new Date().getFullYear()} Tumelo Ltd. All rights reserved.
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[#2EB6B9] animate-pulse"></div>
+            <span className="text-gray-500 font-mono text-[10px] uppercase tracking-widest">
+              All Systems Operational
+            </span>
+          </div>
         </div>
-        <div className="text-sm">
-          <p className="mb-3 text-paper/50">New York</p>
-          <p className="text-paper/80">
-            Floor 57, One World Trade Centre
-            <br />
-            285 Fulton Street
-            <br />
-            New York, NY 10007
-          </p>
-        </div>
-      </div>
-      <div className="border-t border-paper/10">
-        <div className="container-page flex flex-col gap-3 py-5 text-xs text-paper/50 md:flex-row md:items-center md:justify-between">
-          <span>ISO 27001 accredited. © 2026 Tumelo. All rights reserved.</span>
-          <span>Concept redesign — portfolio project, not affiliated with Tumelo.</span>
+
+        {/* Concept credit */}
+        <div className="mt-8 pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-[10px] font-mono text-gray-600 uppercase tracking-widest">
+          <a
+            href="https://www.seo-growup.com/?utm_source=tumelo-github&utm_medium=referral&utm_campaign=tumelo-case-study"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#2EB6B9] transition-colors"
+          >
+            Design concept by GrowUp
+          </a>
+          <a
+            href="https://www.seo-growup.com/?utm_source=tumelo-github&utm_medium=referral&utm_campaign=tumelo-case-study"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hover:text-[#2EB6B9] transition-colors"
+          >
+            A concept redesign by GrowUp. Not affiliated with Tumelo.
+          </a>
         </div>
       </div>
     </footer>
