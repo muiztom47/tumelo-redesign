@@ -77,6 +77,46 @@ const IconUpload = ({ className = "w-5 h-5" }) => (
 );
 
 // ==========================================
+// SCROLL REVEAL WRAPPER
+// ==========================================
+const Reveal = ({ children, delay = 0, className = "" }) => {
+  const ref = React.useRef(null);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(24px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// ==========================================
 // 2. ELITE SVG VISUALIZATIONS
 // ==========================================
 const TumeloLogo = ({ className = "h-7" }) => (
@@ -348,6 +388,16 @@ const VisualAuditTrail = () => (
 // --- HERO ---
 const ProxyBeaconHero = () => (
   <section className="relative min-h-[95vh] flex items-center pt-32 pb-20 overflow-hidden bg-[#030509] border-b border-gray-800/60">
+    <style>{`
+      @keyframes heroFadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hero-anim {
+        opacity: 0;
+        animation: heroFadeUp 0.9s ease-out forwards;
+      }
+    `}</style>
     <div className="absolute inset-0 z-0 pointer-events-none">
       <div className="absolute top-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(46,182,185,0.10)_0,transparent_50%)] blur-[120px]"></div>
       <div className="absolute bottom-[-30%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(46,182,185,0.04)_0,transparent_60%)] blur-[120px]"></div>
@@ -356,12 +406,12 @@ const ProxyBeaconHero = () => (
 
     <div className="relative z-10 max-w-[90rem] mx-auto px-8 md:px-16 w-full grid lg:grid-cols-[1.1fr_1fr] gap-16 lg:gap-24 items-center">
       <div className="max-w-2xl">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-4 mb-8 hero-anim" style={{ animationDelay: "0ms" }}>
           <div className="w-12 h-[1px] bg-[#2eb6b9]"></div>
           <span className="text-[11px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Research Engine</span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.02] tracking-tighter mb-8">
+        <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.02] tracking-tighter mb-8 hero-anim" style={{ animationDelay: "120ms" }}>
           ProxyBeacon
         </h1>
 
@@ -373,7 +423,7 @@ const ProxyBeaconHero = () => (
           Every result is sourced to the underlying disclosure, so your team can review the evidence behind each decision.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-5">
+        <div className="flex flex-col sm:flex-row gap-5 hero-anim" style={{ animationDelay: "400ms" }}>
       <a   href="https://www.tumelo.com/demo"
   target="_blank"
   rel="noopener noreferrer" className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all hover:bg-white whitespace-nowrap">
@@ -385,13 +435,13 @@ const ProxyBeaconHero = () => (
           </a>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-[0.25em]">
+        <div className="mt-12 flex flex-wrap items-center gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-[0.25em] hero-anim" style={{ animationDelay: "480ms" }}>
           <div className="flex items-center gap-2"><IconShield className="w-4 h-4" /> ISO 27001</div>
           <div className="flex items-center gap-2"><IconGlobe className="w-4 h-4" /> UK · US · EU</div>
         </div>
       </div>
 
-      <div className="relative hidden lg:block w-full">
+      <div className="relative hidden lg:block w-full hero-anim" style={{ animationDelay: "300ms" }}>
         <HeroResearchReport />
       </div>
     </div>
@@ -430,6 +480,7 @@ const CoreCapabilities = () => {
   return (
     <section className="py-40 bg-[#05080F] border-t border-gray-800/60">
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
           <div className="max-w-4xl">
             <div className="flex items-center gap-4 mb-8">
@@ -449,7 +500,9 @@ const CoreCapabilities = () => {
             <div className="w-40 h-[1px] bg-gray-800"></div>
           </div>
         </div>
+        </Reveal>
 
+        <Reveal delay={150}>
         <div className="grid lg:grid-cols-2 gap-px bg-gray-800/40 border border-gray-800/40">
           {capabilities.map((cap, i) => (
             <div key={i} className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-12 transition-all duration-500">
@@ -470,6 +523,7 @@ const CoreCapabilities = () => {
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -478,13 +532,16 @@ const CoreCapabilities = () => {
 // --- HOW IT WORKS (deep dive) ---
 const HowItWorks = () => (
   <section id="how-it-works" className="py-40 bg-[#030509] border-t border-gray-800/60">
-    <div className="max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
-        <div className="max-w-3xl">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-            <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">How it works</span>
-          </div>
+   
+      <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
+        <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">How it works</span>
+            </div>
+
         <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
   A structured workflow from{" "}
   <span className="text-[#2eb6b9]">company disclosure to voting analysis.</span>
@@ -498,7 +555,9 @@ const HowItWorks = () => (
           <div className="w-40 h-[1px] bg-gray-800"></div>
         </div>
       </div>
+      </Reveal>
 
+      <Reveal delay={150}>
       <div className="space-y-px bg-gray-800/40 border border-gray-800/40">
         {[
           {
@@ -545,6 +604,7 @@ const HowItWorks = () => (
           </div>
         ))}
       </div>
+      </Reveal>
     </div>
   </section>
 );
@@ -552,13 +612,15 @@ const HowItWorks = () => (
 // --- WHY IT MATTERS ---
 const WhyItMatters = () => (
   <section className="py-40 bg-[#05080F] border-t border-gray-800/60">
-    <div className="max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
-        <div className="max-w-4xl">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-            <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Challenge</span>
-          </div>
+      <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
+        <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
+          <div className="max-w-4xl">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Challenge</span>
+            </div>
+
      <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
   Proxy research is harder to manage{" "}
   <span className="text-[#2eb6b9]">at institutional scale.</span>
@@ -572,7 +634,9 @@ const WhyItMatters = () => (
           <div className="w-40 h-[1px] bg-gray-800"></div>
         </div>
       </div>
+      </Reveal>
 
+      <Reveal delay={150}>
       <div className="grid lg:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
         {[
           {
@@ -610,7 +674,9 @@ const WhyItMatters = () => (
           </div>
         ))}
       </div>
+      </Reveal>
 
+      <Reveal delay={150}>
       <div className="mt-16 p-10 lg:p-12 border border-gray-800/40 bg-[#030509]">
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
           <div className="max-w-2xl">
@@ -634,6 +700,7 @@ Give your team a faster way to produce its own research, apply its policies, and
 </a>
         </div>
       </div>
+      </Reveal>
     </div>
   </section>
 );
@@ -644,6 +711,7 @@ const TrustSection = () => (
     <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#2eb6b9] opacity-[0.04] blur-[120px] rounded-full"></div>
 
     <div className="relative max-w-[90rem] mx-auto px-8 md:px-16">
+      <Reveal>
       <div className="max-w-3xl mb-20">
         <div className="flex items-center gap-4 mb-8">
           <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
@@ -657,7 +725,9 @@ const TrustSection = () => (
 Not on its own. ProxyBeacon uses AI for the parts of proxy research it is suited to: reading, extracting, structuring, and flagging information. Your policies determine the rules, your team reviews the evidence, and every output remains traceable to its source.
         </p>
       </div>
+      </Reveal>
 
+      <Reveal delay={150}>
       <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-800/40 border border-gray-800/40">
         {[
           { num: "01", icon: <IconZap />, title: "Extracts, doesn’t judge", desc: "AI reads company filings and structures the relevant information against your research criteria. Your team retains judgement over how that evidence is interpreted and applied." },
@@ -681,11 +751,13 @@ Not on its own. ProxyBeacon uses AI for the parts of proxy research it is suited
             <div className="w-8 h-[1px] bg-gray-700 group-hover:w-16 group-hover:bg-[#2eb6b9] mb-5 transition-all duration-500"></div>
             <p className="text-sm text-gray-400 font-light leading-relaxed">{item.desc}</p>
           </div>
-        ))}
+            ))}
+        </div>
+        </Reveal>
       </div>
-    </div>
-  </section>
-);
+    </section>
+  );
+};
 
 // --- WHO BENEFITS ---
 const WhoBenefits = () => {
@@ -731,6 +803,7 @@ const WhoBenefits = () => {
   return (
     <section className="py-40 bg-[#05080F] border-t border-gray-800/60 relative">
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
           <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-8">
@@ -753,7 +826,9 @@ const WhoBenefits = () => {
             <div className="w-40 h-[1px] bg-gray-800"></div>
           </div>
         </div>
+        </Reveal>
 
+        <Reveal delay={150}>
         <div className="grid md:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
           {audiences.map((audience, i) => (
             <div
@@ -823,6 +898,7 @@ const WhoBenefits = () => {
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -835,6 +911,7 @@ const CaseStudy = () => (
   <section className="bg-[#05080F] py-40 border-t border-gray-800/60 relative overflow-hidden">
     <div className="absolute top-0 right-0 w-1/3 h-full bg-[#2eb6b9] opacity-[0.03] skew-x-12 transform translate-x-32 pointer-events-none"></div>
     <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+      <Reveal>
       <div className="grid lg:grid-cols-2 gap-20 items-center">
         <div className="relative z-10">
           <div className="flex items-center gap-4 mb-8">
@@ -879,6 +956,7 @@ const CaseStudy = () => (
           </a>
         </div>
       </div>
+      </Reveal>
     </div>
   </section>
 );
@@ -932,6 +1010,7 @@ const FAQ = () => {
         <div className="grid lg:grid-cols-[1fr_1.6fr] gap-16 lg:gap-24">
           <div>
             <div className="sticky top-32">
+            <Reveal>
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
                 <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">FAQ</span>
@@ -958,9 +1037,11 @@ const FAQ = () => {
   <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover/cta:bg-white group-hover/cta:w-12 transition-all duration-500"></span>
   <IconArrowRight className="w-3 h-3" />
 </a>
+            </Reveal>
             </div>
           </div>
 
+          <Reveal delay={150}>
           <div className="border-t border-gray-800/40">
             {faqs.map((faq, i) => {
               const isOpen = openIndex === i;
@@ -1000,6 +1081,7 @@ const FAQ = () => {
               );
             })}
           </div>
+          </Reveal>
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-16 pt-8 border-t border-gray-800/40">
@@ -1023,6 +1105,7 @@ const CTASection = () => (
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#030509_85%)] pointer-events-none"></div>
 
+    <Reveal>
     <div className="relative max-w-5xl mx-auto px-8 md:px-16 text-center">
       <div className="flex items-center justify-center gap-4 mb-10">
         <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
@@ -1086,6 +1169,7 @@ Talk to our team about your research criteria, voting policies, and current work
         <span className="text-gray-800">·</span><span>EU</span>
       </div>
     </div>
+    </Reveal>
   </section>
 );
 
