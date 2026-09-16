@@ -99,21 +99,14 @@ export default function Footer() {
 
         {/* Concept credit */}
         <div className="mt-8 pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-start md:items-center gap-3 text-[10px] font-mono text-gray-600 uppercase tracking-widest">
+        
           <a
             href="https://www.seo-growup.com/?utm_source=tumelo-github&utm_medium=referral&utm_campaign=tumelo-case-study"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-[#2EB6B9] transition-colors"
           >
-            Design concept by GrowUp
-          </a>
-          <a
-            href="https://www.seo-growup.com/?utm_source=tumelo-github&utm_medium=referral&utm_campaign=tumelo-case-study"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="hover:text-[#2EB6B9] transition-colors"
-          >
-            A concept redesign by GrowUp. Not affiliated with Tumelo.
+          Concept redesign by GrowUp · Not affiliated with Tumelo Ltd.
           </a>
         </div>
       </div>

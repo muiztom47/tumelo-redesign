@@ -1722,6 +1722,16 @@ const CTASection = () => (
 // ==========================================
 export default function Home() {
   useEffect(() => {
+    // If the URL has a hash, scroll to that section instead of the top
+    const hash = window.location.hash;
+    if (hash) {
+      const el = document.querySelector(hash);
+      if (el) {
+        // Wait for the DOM to paint before scrolling
+        setTimeout(() => el.scrollIntoView({ behavior: "smooth", block: "start" }), 50);
+        return;
+      }
+    }
     window.scrollTo(0, 0);
   }, []);
 

@@ -61,6 +61,46 @@ const IconLayers = ({ className = "w-5 h-5" }) => (
 );
 
 // ==========================================
+// SCROLL REVEAL WRAPPER
+// ==========================================
+const Reveal = ({ children, delay = 0, className = "" }) => {
+  const ref = React.useRef(null);
+  const [isVisible, setIsVisible] = React.useState(false);
+
+  React.useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -80px 0px" }
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={ref}
+      className={`transition-all duration-1000 ease-out ${className}`}
+      style={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? "translateY(0)" : "translateY(24px)",
+        transitionDelay: `${delay}ms`,
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+// ==========================================
 // 2. ELITE SVG VISUALIZATIONS
 // ==========================================
 const TumeloLogo = ({ className = "h-7" }) => (
@@ -71,7 +111,7 @@ const TumeloLogo = ({ className = "h-7" }) => (
   </svg>
 );
 
-// --- HERO VISUAL: Live Resolution List (ProxySphere product UI) ---
+// --- HERO VISUAL: Live Vote Routing (ProxySphere product UI) ---
 const HeroResolutionList = () => (
   <div className="relative w-full">
     <div className="absolute -inset-12 bg-[#2eb6b9] opacity-[0.07] blur-[100px] rounded-full pointer-events-none"></div>
@@ -83,105 +123,77 @@ const HeroResolutionList = () => (
           <div className="w-2 h-2 rounded-full bg-[#2eb6b9] animate-pulse"></div>
           <span className="text-[11px] font-mono text-gray-300 tracking-[0.2em] uppercase">Live · ProxySphere</span>
         </div>
-        <div className="flex items-center gap-4">
-          <span className="text-[10px] font-mono text-gray-500 tracking-[0.2em] uppercase">Portfolio · 42 meetings</span>
-        </div>
+        <span className="text-[10px] font-mono text-gray-500 tracking-[0.2em] uppercase">1,842 investors</span>
       </div>
 
-      {/* Fund Context */}
+      {/* Fund + Resolution Context */}
       <div className="border-b border-gray-800/60 px-6 py-5 bg-[#030509]/40">
-        <div className="flex items-center justify-between">
-          <div>
-            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Current meeting</div>
-            <div className="text-white text-lg font-semibold tracking-tight">Apple Inc. · Annual General Meeting</div>
-          </div>
+        <div className="flex items-center justify-between mb-1">
+          <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase">Resolution 02 of 12</div>
           <div className="text-right">
-            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Deadline</div>
-            <div className="text-[#2eb6b9] font-mono text-sm font-semibold">3 days left</div>
+            <span className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mr-2">Deadline</span>
+            <span className="text-[#2eb6b9] font-mono text-xs font-semibold">3 days left</span>
           </div>
+        </div>
+        <div className="text-white text-lg font-semibold tracking-tight">
+          Apple Inc. · Advisory Vote on Executive Compensation
         </div>
       </div>
 
-      {/* Resolutions List */}
-      <div className="divide-y divide-gray-800/40">
-        {[
-          {
-            num: "01",
-            title: "Elect Director — A. Levinson",
-            category: "Governance",
-            recommendation: "FOR",
-            vote: "In line with policy",
-            status: "policy",
-          },
-          {
-            num: "02",
-            title: "Advisory Vote on Executive Compensation",
-            category: "Remuneration",
-            recommendation: "AGAINST",
-            vote: "Override — voted manually",
-            status: "override",
-          },
-          {
-            num: "03",
-            title: "Approve Climate Transition Plan",
-            category: "Environment",
-            recommendation: "FOR",
-            vote: "In line with policy",
-            status: "policy",
-          },
-          {
-            num: "04",
-            title: "Ratify Independent Auditor",
-            category: "Audit",
-            recommendation: "FOR",
-            vote: "Pending review",
-            status: "pending",
-          },
-        ].map((row, i) => (
-          <div key={i} className="group px-6 py-5 hover:bg-[#0A0E17] transition-colors">
-            <div className="flex items-start gap-5">
-              <span className="shrink-0 text-[10px] font-mono text-gray-700 group-hover:text-[#2eb6b9] tracking-[0.2em] mt-1 transition-colors">
-                {row.num}
-              </span>
-              <div className="flex-1 min-w-0">
-                <div className="text-sm text-white font-medium tracking-tight mb-2">
-                  {row.title}
-                </div>
-                <div className="flex items-center gap-3 text-[10px] font-mono text-gray-600 tracking-[0.15em] uppercase">
-                  <span>{row.category}</span>
-                  <span className="text-gray-800">·</span>
-                  <span>Policy Rec: <span className={row.recommendation === "FOR" ? "text-[#2eb6b9]" : "text-red-400"}>{row.recommendation}</span></span>
-                </div>
+      {/* Routing breakdown — split only where investors go contrarian */}
+      <div className="px-6 py-6 border-b border-gray-800/60">
+        <div className="flex items-center justify-between mb-6">
+          <span className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase">Vote split</span>
+          <span className="text-[10px] font-mono text-gray-600 tracking-[0.15em] uppercase">Institutional + Retail</span>
+        </div>
+
+        <div className="space-y-5">
+          {[
+            { label: "Fund manager default", type: "Unvoted shares", pct: "65%", width: "65%", color: "bg-gray-500" },
+            { label: "Contrarian: voted AGAINST", type: "Institutional", pct: "22%", width: "22%", color: "bg-[#2eb6b9]" },
+            { label: "Contrarian: voted FOR", type: "Retail", pct: "9%", width: "9%", color: "bg-gray-600" },
+            { label: "Custom stewardship mandate", type: "Institutional", pct: "4%", width: "4%", color: "bg-gray-700" },
+          ].map((row, i) => (
+            <div key={i}>
+              <div className="flex justify-between items-baseline mb-2">
+                <span className="text-sm text-gray-200 font-light">
+                  {row.label}
+                  <span className="text-[9px] font-mono text-gray-600 tracking-[0.15em] uppercase ml-2">{row.type}</span>
+                </span>
+                <span className="text-sm font-mono text-white">{row.pct}</span>
               </div>
-              <div className="shrink-0 text-right">
-                <div className={`text-[10px] font-mono tracking-[0.15em] uppercase mb-1 ${
-                  row.status === "policy" ? "text-gray-400" :
-                  row.status === "override" ? "text-[#2eb6b9]" :
-                  "text-yellow-500"
-                }`}>
-                  {row.status === "policy" ? "✓ Aligned" :
-                   row.status === "override" ? "● Override" :
-                   "◐ Pending"}
-                </div>
-                <div className="text-[10px] font-mono text-gray-600 tracking-tight">
-                  {row.vote}
-                </div>
+              <div className="h-[4px] bg-gray-900 w-full">
+                <div className={`h-full ${row.color}`} style={{ width: row.width }}></div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
 
-      {/* Footer Summary */}
-      <div className="border-t border-gray-800/60 px-6 py-4 bg-[#030509]/60">
-        <div className="flex items-center justify-between text-[10px] font-mono uppercase tracking-[0.15em]">
-          <span className="text-gray-500">4 of 12 resolutions</span>
-          <span className="text-[#2eb6b9]">Submit vote →</span>
+      {/* Result — split votes, not one blended outcome */}
+      <div className="px-6 py-5 bg-[#030509]/60">
+        <div className="flex items-center justify-between mb-4">
+          <div>
+            <div className="text-[10px] font-mono text-gray-500 tracking-[0.25em] uppercase mb-1">Vote capital</div>
+            <div className="text-white text-base font-medium tracking-tight">100% cast · no vote left unvoted</div>
+          </div>
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded-full bg-[#2eb6b9] animate-pulse"></div>
+            <span className="text-[11px] font-mono text-[#2eb6b9] tracking-[0.2em] uppercase font-semibold">Submitted</span>
+          </div>
+        </div>
+        <div className="flex items-center gap-4 text-xs font-mono tracking-wider">
+          <span className="text-white">FOR: 74%</span>
+          <span className="text-gray-700">·</span>
+          <span className="text-gray-400">AGAINST: 26%</span>
+          <span className="text-gray-700">·</span>
+          <span className="text-[#2eb6b9] font-semibold">100% AUDITABLE</span>
         </div>
       </div>
     </div>
   </div>
 );
+
 
 // --- CAPABILITY VISUAL 1: Resolution Split ---
 const VisualResolutionSplit = () => (
@@ -345,6 +357,16 @@ const VisualUnifiedArchitecture = () => (
 // --- HERO ---
 const ProxySphereHero = () => (
   <section className="relative min-h-[95vh] flex items-center pt-32 pb-20 overflow-hidden bg-[#030509] border-b border-gray-800/60">
+    <style>{`
+      @keyframes heroFadeUp {
+        from { opacity: 0; transform: translateY(24px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .hero-anim {
+        opacity: 0;
+        animation: heroFadeUp 0.9s ease-out forwards;
+      }
+    `}</style>
     <div className="absolute inset-0 z-0 pointer-events-none">
       <div className="absolute top-[-20%] right-[-10%] w-[70vw] h-[70vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(46,182,185,0.10)_0,transparent_50%)] blur-[120px]"></div>
       <div className="absolute bottom-[-30%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-[radial-gradient(circle_at_center,rgba(46,182,185,0.04)_0,transparent_60%)] blur-[120px]"></div>
@@ -353,27 +375,29 @@ const ProxySphereHero = () => (
 
     <div className="relative z-10 max-w-[90rem] mx-auto px-8 md:px-16 w-full grid lg:grid-cols-[1.1fr_1fr] gap-16 lg:gap-24 items-center">
       <div className="max-w-2xl">
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-4 mb-8 hero-anim" style={{ animationDelay: "0ms" }}>
           <div className="w-12 h-[1px] bg-[#2eb6b9]"></div>
           <span className="text-[11px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">
             The Voting Engine
           </span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.02] tracking-tighter mb-8">
+        <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white leading-[1.02] tracking-tighter mb-8 hero-anim" style={{ animationDelay: "120ms" }}>
           ProxySphere
         </h1>
 
-        <p className="text-xl md:text-2xl text-white font-light leading-[1.5] mb-6 max-w-xl">
-          Every investor in your fund gets a direct, proportional vote on every resolution — without your operations team touching a spreadsheet.
+     <p className="text-[23px] text-white font-light leading-[1.5] mb-6 max-w-xl hero-anim" style={{ animationDelay: "240ms" }}>
+  Give every investor in your fund a direct, proportional say in how each resolution is voted on, without adding manual work for your operations team.
+</p>
+
+        <p className="text-base text-gray-400 font-light leading-relaxed max-w-xl mb-12 border-l border-gray-800 pl-6 hero-anim" style={{ animationDelay: "320ms" }}>
+  Built specifically for pass-through voting across pooled funds and ETFs. Institutional and retail investors can vote through one system, with every instruction captured and reconciled in one audit trail.
         </p>
 
-        <p className="text-base text-gray-400 font-light leading-relaxed max-w-xl mb-12 border-l border-gray-800 pl-6">
-          Built specifically for pass-through voting in pooled funds and ETFs. Institutional and retail investors, in one vehicle, with one audit trail.
-        </p>
-
-        <div className="flex flex-col sm:flex-row gap-5">
-          <a href="#contact" className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all hover:bg-white whitespace-nowrap">
+        <div className="flex flex-col sm:flex-row gap-5 hero-anim" style={{ animationDelay: "400ms" }}>
+          <a   href="https://www.tumelo.com/demo"
+  target="_blank"
+  rel="noopener noreferrer" className="group inline-flex items-center justify-center gap-3 px-8 py-4 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all hover:bg-white whitespace-nowrap">
             <span>Book a Demo</span>
             <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1 shrink-0" />
           </a>
@@ -382,13 +406,13 @@ const ProxySphereHero = () => (
           </a>
         </div>
 
-        <div className="mt-12 flex flex-wrap items-center gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-[0.25em]">
+        <div className="mt-12 flex flex-wrap items-center gap-8 text-[10px] font-mono text-gray-500 uppercase tracking-[0.25em] hero-anim" style={{ animationDelay: "480ms" }}>
           <div className="flex items-center gap-2"><IconShield className="w-4 h-4" /> ISO 27001</div>
           <div className="flex items-center gap-2"><IconGlobe className="w-4 h-4" /> UK · US · EU</div>
         </div>
       </div>
 
-      <div className="relative hidden lg:block w-full">
+      <div className="relative hidden lg:block w-full hero-anim" style={{ animationDelay: "300ms" }}>
         <HeroResolutionList />
       </div>
     </div>
@@ -401,25 +425,25 @@ const CoreCapabilities = () => {
     {
       num: "01",
       title: "Full voting flexibility",
-      description: "Investors choose a policy, vote resolution by resolution, or override their policy on individual proposals. All three coexist in the same fund.",
+      description: "Investors can follow a voting policy, vote on individual resolutions, or change their choice on specific proposals. Different voting preferences can operate within the same fund.",
       icon: <IconSplit />,
     },
     {
       num: "02",
       title: "Policy agnostic",
-      description: "Ingest recommendations from any advisor, your own internal mandate, or a client's bespoke policy — via API or SFTP. One consolidated output.",
+      description: "Use recommendations from your proxy advisor, your own voting policy, or a client’s bespoke mandate. ProxySphere brings the resulting instructions together for execution.",
       icon: <IconLayers />,
     },
     {
       num: "03",
-      title: "No vote goes un-voted",
-      description: "If an investor is silent, their vote stays with the fund manager and defaults to house policy. 100% of capital is always voted.",
+      title: "Clear handling of unallocated votes",
+      description: "When an investor does not provide an instruction, their voting rights are handled according to the default arrangement agreed with the fund manager.",
       icon: <IconShield />,
     },
     {
       num: "04",
-      title: "Retail + institutional",
-      description: "Synthesises institutional mandates and retail platforms in one pooled vehicle. No segregation, no bifurcated systems.",
+      title: "One process for all investors",
+      description: "Institutional and retail investors can participate through the same pooled fund. Their instructions are collected and reconciled through one voting process.",
       icon: <IconUsers />,
     },
   ];
@@ -427,18 +451,19 @@ const CoreCapabilities = () => {
   return (
     <section className="py-40 bg-[#05080F] border-t border-gray-800/60">
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
           <div className="max-w-2xl">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
               <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Core Capabilities</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-              Four capabilities. <br />
-              <span className="text-[#2eb6b9]">One engine.</span>
-            </h2>
-            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-              Built to handle the operational reality of pooled fund voting at institutional scale — from policy ingestion to vote reconciliation.
+        <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  Everything needed to manage{" "}
+  <span className="text-[#2eb6b9]">investor voting in pooled funds.</span>
+</h2>
+            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-2xl">
+ProxySphere handles the key steps in pass-through voting, from applying voting policies and collecting investor instructions to reconciling those instructions with the fund’s underlying holdings.
             </p>
           </div>
           <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -446,7 +471,9 @@ const CoreCapabilities = () => {
             <div className="w-40 h-[1px] bg-gray-800"></div>
           </div>
         </div>
+        </Reveal>
 
+        <Reveal delay={150}>
         <div className="grid lg:grid-cols-2 gap-px bg-gray-800/40 border border-gray-800/40">
           {capabilities.map((cap, i) => (
             <div key={i} className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-12 transition-all duration-500">
@@ -469,6 +496,7 @@ const CoreCapabilities = () => {
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -477,52 +505,56 @@ const CoreCapabilities = () => {
 // --- HOW IT WORKS (Deep dive) ---
 const HowItWorks = () => (
   <section id="how-it-works" className="py-40 bg-[#030509] border-t border-gray-800/60">
-    <div className="max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-            <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">How it works</span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-            From holdings <br />
-            <span className="text-[#2eb6b9]">to votes cast.</span>
-          </h2>
-          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-            A linear pipeline. Every step auditable. Every investor accounted for.
-          </p>
+        <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
+        <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-24">
+          <div className="max-w-3xl">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">How it works</span>
+            </div>
+     <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
+  How ProxySphere manages{" "}
+  <br className="hidden md:block" />
+  <span className="text-[#2eb6b9]">pooled fund voting.</span>
+</h2>
+
+          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-3xl">
+   ProxySphere manages the voting process from investor entitlements through to final vote instructions. It brings holdings, voting policies, investor choices, and fund-level execution into one reconciled workflow. </p>
         </div>
         <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
           <span className="text-[10px] font-mono tracking-[0.25em] text-gray-600 uppercase">Four stages</span>
           <div className="w-40 h-[1px] bg-gray-800"></div>
         </div>
       </div>
+      </Reveal>
 
       {/* 4 capabilities with visuals */}
+      <Reveal delay={150}>
       <div className="space-y-px bg-gray-800/40 border border-gray-800/40">
         {[
           {
             num: "01",
             title: "Investor entitlements calculated",
-            description: "Each investor in the fund is identified and their voting entitlement is calculated from their holdings — across custodians, platforms, nominees, and nested structures.",
+            description: "ProxySphere identifies investors and calculates the voting rights associated with their holdings across custodians, platforms, nominees, and other fund structures.",
             visual: <VisualUnifiedArchitecture />,
           },
           {
             num: "02",
             title: "Policies ingested and applied",
-            description: "ProxySphere ingests voting recommendations from any advisor, applies institutional mandates to pooled holdings, and routes bespoke policies to the right investors.",
+            description: "ProxySphere receives recommendations from proxy advisors and voting policies from the fund manager or clients. These policies are matched to the relevant investors and resolutions.",
             visual: <VisualPolicyAgnostic />,
           },
           {
             num: "03",
             title: "Votes split and executed",
-            description: "The fund's total vote is divided proportionally. Different investors can hold different positions on the same resolution — all reconciled into a single, auditable record.",
+            description: "Investors can make different choices on the same resolution. ProxySphere reconciles those instructions against the fund’s holdings and produces the resulting voting position.",
             visual: <VisualResolutionSplit />,
           },
           {
             num: "04",
-            title: "Nothing goes un-voted",
-            description: "If an investor doesn't vote, their share defaults to the manager's house policy. 100% of the fund's capital is always exercised, with zero silent abstentions.",
+            title: "Default treatment for non-voters",
+            description: "When an investor does not provide an instruction, their voting rights follow the default arrangement agreed with the fund manager.",
             visual: <VisualNoVoteUnvoted />,
           },
         ].map((step, i) => (
@@ -545,6 +577,7 @@ const HowItWorks = () => (
           </div>
         ))}
       </div>
+      </Reveal>
     </div>
   </section>
 );
@@ -552,19 +585,22 @@ const HowItWorks = () => (
 // --- WHY IT MATTERS ---
 const WhyItMatters = () => (
   <section className="py-40 bg-[#05080F] border-t border-gray-800/60">
-    <div className="max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
-        <div className="max-w-2xl">
-          <div className="flex items-center gap-4 mb-8">
-            <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-            <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Stakes</span>
-          </div>
-          <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-            Why this matters <br />
-            <span className="text-[#2eb6b9]">right now.</span>
-          </h2>
-          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-            Two forces converging. Concentration of voting power, and regulatory momentum.
+   
+      <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
+        <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
+          <div className="max-w-4xl">
+            <div className="flex items-center gap-4 mb-8">
+              <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">The Case for Investor Voting</span>
+            </div>
+
+<h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8 max-w-3xl">
+  Investor influence has{" "}
+  <span className="text-[#2eb6b9]">not scaled with pooled assets.</span>
+</h2>
+          <p className="text-lg text-gray-400 font-light leading-relaxed max-w-4xl">
+        As pooled funds have grown, so has the concentration of voting power held by asset managers. Investors have limited visibility into those decisions, while regulatory frameworks in the UK, EU, and US are creating new expectations around shareholder participation and stewardship.
           </p>
         </div>
         <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -572,14 +608,16 @@ const WhyItMatters = () => (
           <div className="w-40 h-[1px] bg-gray-800"></div>
         </div>
       </div>
+      </Reveal>
 
+      <Reveal delay={150}>
       <div className="grid lg:grid-cols-2 gap-px bg-gray-800/40 border border-gray-800/40">
         <div className="group relative bg-[#030509] hover:bg-[#0A0E17] p-10 lg:p-14 transition-all duration-500">
           <div className="absolute top-0 left-0 w-full h-[2px] bg-[#2eb6b9] scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-700 ease-out"></div>
           <div className="text-[10px] font-mono text-gray-700 group-hover:text-[#2eb6b9] tracking-[0.25em] uppercase mb-8 transition-colors">Driver 01</div>
           <h3 className="text-2xl md:text-3xl font-bold text-white tracking-tight mb-6">Concentration of voting power</h3>
           <p className="text-base text-gray-400 font-light leading-relaxed mb-10">
-            Index investing has concentrated voting power in a few hands. Trillions in passive assets cast votes on behalf of millions with no direct say.
+Index investing has concentrated significant voting power among a small number of asset managers. Trillions in passive assets are voted collectively on behalf of millions of underlying investors.
           </p>
           <div className="grid grid-cols-2 gap-px bg-gray-800/40 border border-gray-800/40">
             <div className="bg-[#030509] p-5">
@@ -614,6 +652,7 @@ const WhyItMatters = () => (
           </div>
         </div>
       </div>
+      </Reveal>
     </div>
   </section>
 );
@@ -623,21 +662,21 @@ const WhoBenefits = () => {
   const audiences = [
     {
       label: "For Asset Managers",
-      headline: "Retain control. Reduce risk.",
-      description: "Differentiate your fund range, meet compliance, prevent AUM bleed — without building infrastructure.",
+      headline: "Let investors vote while you stay in control.",
+      description: "Add investor voting to your funds without creating a separate manual process for your operations team..",
       benefits: [
-        "Offer clients a direct say in how shares are voted",
-        "Differentiate your fund range with voting as a feature",
-        "Meet regulatory expectations around transparency",
-        "Reduce risk of client attrition",
+        "Give investors a direct say in eligible resolutions",
+        "Add voting choice as a fund feature",
+        "Support regulatory and stewardship requirements",
+        "Reduce the risk of investors moving assets elsewhere",
         "Retain full control of fund management",
       ],
       accent: true,
     },
     {
       label: "For Pension Trustees",
-      headline: "Demonstrate active stewardship.",
-      description: "Ensure votes reflect your scheme's priorities. Give members a tangible connection to their pension.",
+      headline: "Show members how their pension is being represented.",
+      description: "Give trustees and members clearer visibility into voting activity and how it relates to the scheme’s stewardship priorities.",
       benefits: [
         "Demonstrate active stewardship to members",
         "Ensure votes reflect scheme priorities",
@@ -649,14 +688,14 @@ const WhoBenefits = () => {
     },
     {
       label: "For Retail Investors",
-      headline: "A real say in what you own.",
-      description: "Extend fundamental shareholder rights to the individual layer — without sacrificing diversification.",
+      headline: "Have a direct say in how your fund votes.",
+      description: "Take part in eligible company votes through your existing fund investment, without sacrificing diversification.",
       benefits: [
         "Vote granularly on climate, pay, governance",
-        "Maintain passive investment strategies",
-        "Full transparency into voting records",
-        "No change to how you invest",
-        "Access without minimum thresholds",
+        "Keep your existing fund investments",
+        "See how votes are cast on your behalf",
+        "Express your preferences without changing your portfolio",
+        "Participate without a minimum investment threshold",
       ],
       accent: false,
     },
@@ -664,19 +703,21 @@ const WhoBenefits = () => {
 
   return (
     <section className="py-40 bg-[#030509] border-t border-gray-800/60 relative">
+     
       <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+        <Reveal>
         <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
-          <div className="max-w-2xl">
+          <div className="max-w-4xl">
             <div className="flex items-center gap-4 mb-8">
               <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-              <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Who benefits</span>
+              <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Who we help</span>
             </div>
-            <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8">
-              Three audiences. <br />
-              <span className="text-[#2eb6b9]">One infrastructure.</span>
-            </h2>
-            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-              ProxySphere sits between the fund and the shareholder. Here is what that means for each side of the table.
+  <h2 className="text-4xl md:text-6xl font-bold text-white tracking-tighter leading-[1.05] mb-8 max-w-2xl">
+  One voting infrastructure for{" "}
+  <span className="text-[#2eb6b9]">every stakeholder.</span>
+</h2>
+            <p className="text-lg text-gray-400 font-light leading-relaxed max-w-4xl">
+  Fund managers need to manage voting at scale. Trustees need oversight. Investors want to know how their money is being represented. ProxySphere supports all three through the same voting infrastructure.
             </p>
           </div>
           <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -684,7 +725,9 @@ const WhoBenefits = () => {
             <div className="w-40 h-[1px] bg-gray-800"></div>
           </div>
         </div>
+        </Reveal>
 
+        <Reveal delay={150}>
         <div className="grid md:grid-cols-3 gap-px bg-gray-800/40 border border-gray-800/40">
           {audiences.map((audience, i) => (
             <div
@@ -740,18 +783,21 @@ const WhoBenefits = () => {
               </div>
 
               <div className="relative flex items-end justify-between border-t border-gray-800/60 pt-8">
-                <Link
-                  to="#contact"
-                  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
-                >
-                  <span>Speak to team</span>
-                  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
-                  <IconArrowRight className="w-3 h-3" />
-                </Link>
+              <a
+  href="https://www.tumelo.com/contact?hsLang=en"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-white hover:text-[#2eb6b9] transition-colors group/cta"
+>
+  <span>Speak to team</span>
+  <span className="w-8 h-[1px] bg-gray-700 group-hover/cta:bg-[#2eb6b9] group-hover/cta:w-12 transition-all duration-500"></span>
+  <IconArrowRight className="w-3 h-3" />
+</a>
               </div>
             </div>
           ))}
         </div>
+        </Reveal>
       </div>
     </section>
   );
@@ -763,6 +809,7 @@ const Adoption = () => (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80vw] h-[400px] bg-[#2eb6b9] opacity-[0.03] blur-[120px] rounded-full pointer-events-none"></div>
 
     <div className="relative max-w-[90rem] mx-auto px-8 md:px-16">
+      <Reveal>
       <div className="grid lg:grid-cols-[1fr_auto] gap-12 items-end mb-20">
         <div className="max-w-2xl">
           <div className="flex items-center gap-4 mb-8">
@@ -774,7 +821,7 @@ const Adoption = () => (
             <span className="text-[#2eb6b9]">institutional scale.</span>
           </h2>
           <p className="text-lg text-gray-400 font-light leading-relaxed max-w-xl">
-            Pass-through voting adoption has accelerated rapidly since 2022. Many of the world's largest asset managers now offer it.
+            Pass-through voting adoption has accelerated rapidly since 2022. Many of the world’s largest asset managers now offer it.
           </p>
         </div>
         <div className="hidden lg:flex flex-col items-end gap-3 pb-2">
@@ -782,11 +829,13 @@ const Adoption = () => (
           <div className="w-40 h-[1px] bg-gray-800"></div>
         </div>
       </div>
+      </Reveal>
 
+      <Reveal delay={150}>
       <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-px bg-gray-800/40 border border-gray-800/40">
         {[
           { name: "LGIM", year: "2023", detail: "Launched pass-through voting to clients" },
-          { name: "BlackRock", year: "2023", detail: "Voting Choice — largest by AUM" },
+          { name: "BlackRock", year: "2023", detail: "Voting Choice, largest by AUM" },
           { name: "Vanguard", year: "2024", detail: "Investor Choice piloted across funds" },
           { name: "State Street", year: "2024", detail: "Proxy Voting Choice expanded to EU" },
           { name: "SEI", year: "2025", detail: "Vote Choice program launched" },
@@ -802,6 +851,7 @@ const Adoption = () => (
           </div>
         ))}
       </div>
+      </Reveal>
 
       <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-10 pt-8 border-t border-gray-800/40">
         <div className="flex items-center gap-4">
@@ -820,6 +870,7 @@ const CaseStudy = () => (
   <section className="bg-[#030509] py-40 border-t border-gray-800/60 relative overflow-hidden">
     <div className="absolute top-0 right-0 w-1/3 h-full bg-[#2eb6b9] opacity-[0.03] skew-x-12 transform translate-x-32 pointer-events-none"></div>
     <div className="max-w-[90rem] mx-auto px-8 md:px-16">
+      <Reveal>
       <div className="grid lg:grid-cols-2 gap-20 items-center">
         <div className="relative z-10">
           <div className="flex items-center gap-4 mb-8">
@@ -827,7 +878,7 @@ const CaseStudy = () => (
             <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Client story</span>
           </div>
           <h2 className="text-3xl md:text-5xl font-serif text-white leading-[1.3] mb-12">
-            "Tumelo is an extremely agile, collaborative, and results-focused team. They are a pleasure to work with."
+            “Tumelo is an extremely agile, collaborative, and results-focused team. They are a pleasure to work with.”
           </h2>
           <div className="flex items-center gap-6">
             <div className="w-16 h-[1px] bg-gray-700"></div>
@@ -848,7 +899,7 @@ const CaseStudy = () => (
             Rolling out pass-through voting for a £2bn pension fund.
           </h3>
           <p className="text-gray-400 font-light leading-relaxed mb-10">
-            Discover how Legal & General Investment Management (LGIM) used Tumelo's infrastructure to give their underlying pension contributors unprecedented visibility and control.
+            Discover how Legal & General Investment Management (LGIM) used Tumelo’s infrastructure to give their underlying pension contributors unprecedented visibility and control.
           </p>
           <a
             href="https://25524212.hs-sites-eu1.com/hubfs/LGIM%20announcement/Tumelo%20powers%20LGIMs%20pass-through%20voting%20offering.pdf"
@@ -864,46 +915,84 @@ const CaseStudy = () => (
           </a>
         </div>
       </div>
+      </Reveal>
     </div>
   </section>
 );
 
+
 // --- FAQ ---
+
 const FAQ = () => {
+
   const faqs = [
+
     {
-      q: "What's the difference between pass-through voting and expression of wish?",
-      a: "Pass-through voting is binding — the investor's preference is executed as an actual vote at the AGM, reducing the manager's vote accordingly. Expression of wish is advisory — the investor indicates a preference but the manager retains final discretion.",
+
+      q: "What’s the difference between pass-through voting and expression of wish?",
+
+      a: "Pass-through voting is binding. The investor’s preference is executed as an actual vote at the AGM, with the fund’s vote adjusted accordingly. Expression of wish is advisory. The investor indicates a preference, but the fund manager retains the final voting decision.",
+
     },
+
     {
+
       q: "Can investors in the same fund vote differently?",
-      a: "Yes. That's the whole point. ProxySphere splits the fund's vote proportionally. Different investors can apply different policies to their own share of the vote, and all positions coexist within a single pooled vehicle.",
+
+      a: "Yes. ProxySphere allocates voting rights proportionally, so investors can make different choices on the same resolution. Those positions are reconciled within the same pooled fund, without requiring separate voting structures.",
+
     },
+
     {
-      q: "What happens if an investor doesn't vote?",
-      a: "Nothing is lost. Un-voted shares default to the manager's stated house policy. The fund always votes 100% of its capital. No silent abstentions.",
+
+      q: "What happens if an investor doesn’t vote?",
+
+      a: "The investor’s unallocated voting rights follow the default arrangement agreed with the fund manager. This can include the manager’s house policy, giving the fund a defined process for handling non-voting investors.",
+
     },
+
     {
+
       q: "Does ProxySphere work for retail investors too?",
-      a: "Yes. ProxySphere is the only engine designed to synthesise institutional mandates and retail platforms within the same pooled fund. No bifurcated systems required.",
+
+      a: "Yes. ProxySphere supports both retail and institutional investors within the same pooled fund and voting process. Each investor can participate according to the voting options made available by the fund manager.",
+
     },
+
     {
+
       q: "Can we use our existing voting policy?",
-      a: "Yes. ProxySphere is policy-agnostic. We ingest voting recommendations from any provider via API or SFTP — or apply your own custom policy across the pooled fund.",
+
+      a: "Yes. ProxySphere can use recommendations from your existing proxy advisor or apply your own voting policy. Policies can be provided through API or SFTP and applied to the relevant investors and resolutions.",
+
     },
+
     {
+
       q: "How long does implementation take?",
-      a: "Most institutions go live in 6–8 weeks. We handle custodial data mapping, policy ingestion, and investor onboarding. Your operations team doesn't need to build anything.",
+
+      a: "Most implementations take 6 to 8 weeks. Tumelo supports data mapping, policy configuration, system integration, and investor onboarding, so your team does not need to build the voting workflow internally.",
+
     },
+
     {
+
       q: "How is our data protected?",
-      a: "ISO 27001 certified. SOC 2 Type II audited. AES-256 encryption at rest, TLS 1.3 in transit. Full cryptographic auditability from source to conclusion.",
+
+      a: "Tumelo maintains ISO 27001 certification for its information security management system. Data is encrypted using AES-256 at rest and TLS 1.2 or higher in transit. Tumelo also conducts external penetration testing at least annually and maintains ongoing security monitoring.",
+
     },
+
     {
+
       q: "Which jurisdictions do you support?",
-      a: "We're live across the UK, EU, and US markets. Resolution coverage spans all major indices. We're actively expanding into APAC.",
+
+      a: "ProxySphere supports voting across the UK, EU, and US markets. Coverage depends on the fund and its underlying holdings, with additional markets being added as the platform expands.",
+
     },
+
   ];
+
 
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -915,30 +1004,39 @@ const FAQ = () => {
         <div className="grid lg:grid-cols-[1fr_1.6fr] gap-16 lg:gap-24">
           <div>
             <div className="sticky top-32">
+            <Reveal>
               <div className="flex items-center gap-4 mb-8">
                 <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
                 <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">FAQ</span>
               </div>
-              <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.1] mb-8">
-                Everything a <br />
-                <span className="text-[#2eb6b9]">stewardship lead asks.</span>
-              </h2>
+            <h2 className="text-4xl md:text-5xl font-bold text-white tracking-tighter leading-[1.1] mb-8">
+  Questions before{" "}
+  <br className="hidden md:block" />
+  <span className="text-[#2eb6b9]">implementing ProxySphere.</span>
+</h2>
               <p className="text-base text-gray-400 font-light leading-relaxed mb-10 max-w-md">
-                The questions we hear most from CFOs, Heads of Stewardship, and pension trustees evaluating ProxySphere.
+Clear answers on pass-through voting, implementation, investor participation, security, policy integration, and market coverage.
               </p>
               <div className="flex items-center gap-4 mb-8">
                 <div className="flex-1 h-[1px] bg-gray-800"></div>
                 <span className="text-[10px] font-mono text-gray-600 tracking-[0.25em] uppercase whitespace-nowrap">Still unresolved?</span>
                 <div className="flex-1 h-[1px] bg-gray-800"></div>
               </div>
-              <a href="#contact" className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors group/cta">
-                <span>Talk to our team</span>
-                <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover/cta:bg-white group-hover/cta:w-12 transition-all duration-500"></span>
-                <IconArrowRight className="w-3 h-3" />
-              </a>
+          <a
+  href="https://www.tumelo.com/contact?hsLang=en"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="inline-flex items-center gap-3 text-[11px] uppercase tracking-[0.25em] font-semibold text-[#2eb6b9] hover:text-white transition-colors group/cta"
+>
+  <span>Talk to our team</span>
+  <span className="w-8 h-[1px] bg-[#2eb6b9] group-hover/cta:bg-white group-hover/cta:w-12 transition-all duration-500"></span>
+  <IconArrowRight className="w-3 h-3" />
+</a>
+            </Reveal>
             </div>
           </div>
 
+          <Reveal delay={150}>
           <div className="border-t border-gray-800/40">
             {faqs.map((faq, i) => {
               const isOpen = openIndex === i;
@@ -978,6 +1076,7 @@ const FAQ = () => {
               );
             })}
           </div>
+          </Reveal>
         </div>
 
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mt-16 pt-8 border-t border-gray-800/40">
@@ -1001,31 +1100,42 @@ const CTASection = () => (
     <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:4rem_4rem] pointer-events-none"></div>
     <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,#030509_85%)] pointer-events-none"></div>
 
+    <Reveal>
     <div className="relative max-w-5xl mx-auto px-8 md:px-16 text-center">
       <div className="flex items-center justify-center gap-4 mb-10">
         <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
-        <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Initiate Deployment</span>
+        <span className="text-[10px] font-mono tracking-[0.25em] text-[#2eb6b9] uppercase">Explore ProxySphere</span>
         <div className="w-8 h-[1px] bg-[#2eb6b9]"></div>
       </div>
 
-      <h2 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white tracking-tighter leading-[1.02] mb-10">
-        Ready to deploy <br />
-        <span className="text-[#2eb6b9]">ProxySphere?</span>
-      </h2>
+    <h2 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold text-white tracking-tighter leading-[1.02] mb-10">
+  Bring pass-through voting{" "}
+  <span className="text-[#2eb6b9]">to your fund.</span>
+</h2>
 
-      <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-2xl mx-auto mb-16">
-        Speak with our team to map pass-through voting to your fund structure. Live in 6–8 weeks.
+      <p className="text-lg md:text-xl text-gray-400 font-light leading-relaxed max-w-4xl mx-auto mb-16">
+   Talk to our team about your fund structure, investor base, voting process, and integration requirements. We’ll show you how ProxySphere fits into your existing operating model.
       </p>
 
       <div className="flex flex-col sm:flex-row justify-center gap-5 mb-20">
-        <Link to="/contact" className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:bg-white">
-          <span>Contact Sales</span>
-          <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
-        <Link to="/documentation" className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-transparent border border-gray-700 text-white text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:border-white hover:bg-white/5">
-          <span>Read Documentation</span>
-          <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-        </Link>
+     <a
+    href="https://www.tumelo.com/contact"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative inline-flex items-center justify-center gap-4 px-10 py-5 bg-[#2eb6b9] text-[#030509] text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:bg-white"
+  >
+    <span>Contact Sales</span>
+    <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </a>
+  <a
+    href="https://www.tumelo.com/demo"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group inline-flex items-center justify-center gap-4 px-10 py-5 bg-transparent border border-gray-700 text-white text-[11px] font-bold uppercase tracking-[0.25em] transition-all duration-300 hover:border-white hover:bg-white/5"
+  >
+    <span>Book a Demo</span>
+    <IconArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+  </a>
       </div>
 
       <div className="flex items-center justify-center gap-4 mb-10">
@@ -1047,78 +1157,14 @@ const CTASection = () => (
           <span className="w-1.5 h-1.5 rounded-full bg-[#2eb6b9]"></span>
           ISO 27001
         </span>
-        <span className="text-gray-800">·</span><span>SOC 2 Type II</span>
         <span className="text-gray-800">·</span><span>AES-256</span>
         <span className="text-gray-800">·</span><span>UK</span>
         <span className="text-gray-800">·</span><span>US</span>
         <span className="text-gray-800">·</span><span>EU</span>
       </div>
     </div>
+    </Reveal>
   </section>
-);
-
-// --- FOOTER ---
-const EliteFooter = () => (
-  <footer className="bg-[#030509] border-t border-gray-800/60 pt-24 pb-12">
-    <div className="max-w-[90rem] mx-auto px-8 md:px-16">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-12 lg:gap-8 mb-24">
-        <div className="col-span-2 lg:col-span-2 pr-12">
-          <TumeloLogo className="mb-8" />
-          <p className="text-gray-500 font-light text-sm leading-relaxed mb-8 max-w-xs">
-            Voting infrastructure for fund managers, institutional investors, and retail investors. Bristol & New York.
-          </p>
-          <div className="flex gap-4">
-            {["LinkedIn", "Twitter"].map(social => (
-              <a key={social} href="#" className="text-xs font-mono text-gray-600 uppercase tracking-widest hover:text-[#2eb6b9] transition-colors">
-                {social}
-              </a>
-            ))}
-          </div>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Products</h4>
-          <ul className="space-y-4">
-            {["ProxySphere", "ProxyBeacon", "API Docs", "Security"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Who we help</h4>
-          <ul className="space-y-4">
-            {["Fund Managers", "Institutional Investors", "Retail Investors", "Case Studies"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Company</h4>
-          <ul className="space-y-4">
-            {["About Us", "Careers", "Newsroom", "Contact"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-        <div>
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-6">Legal</h4>
-          <ul className="space-y-4">
-            {["Privacy", "Terms", "Cookies", "Compliance"].map(link => (
-              <li key={link}><Link to="#" className="text-gray-400 hover:text-white text-sm font-light transition-colors">{link}</Link></li>
-            ))}
-          </ul>
-        </div>
-      </div>
-      <div className="pt-8 border-t border-gray-800/60 flex flex-col md:flex-row justify-between items-center gap-4">
-        <div className="text-gray-600 font-mono text-[10px] uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} Tumelo Ltd. All rights reserved.
-        </div>
-        <div className="flex items-center gap-2">
-          <div className="w-2 h-2 rounded-full bg-[#2eb6b9] animate-pulse"></div>
-          <span className="text-gray-500 font-mono text-[10px] uppercase tracking-widest">All Systems Operational</span>
-        </div>
-      </div>
-    </div>
-  </footer>
 );
 
 // ==========================================
@@ -1126,6 +1172,7 @@ const EliteFooter = () => (
 // ==========================================
 export default function ProxySphere() {
   useEffect(() => {
+    // Always scroll to top on mount — product pages don't use hash anchors
     window.scrollTo(0, 0);
   }, []);
 
@@ -1152,7 +1199,7 @@ export default function ProxySphere() {
         <CTASection />
       </main>
 
-      <EliteFooter />
+
     </div>
   );
 }

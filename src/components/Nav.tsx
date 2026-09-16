@@ -53,19 +53,22 @@ export default function Nav() {
     return () => observer.disconnect();
   }, [isHome]);
 
-  // Section anchors on the homepage
+  // Section anchors — prefixed with "/" when not on the homepage
+  const prefix = isHome ? "" : "/";
   const navLinks = [
-    { to: "#who-we-help", label: "Who we help" },
-    { to: "#solutions",    label: "Platform" },
-        { to: "#casestudy",   label: "Customer Stories" },
-    { to: "#research",    label: "Research" },
-        { to: "#faq",         label: "FAQ" },
-    { to: "#contact",     label: "Contact" },
+    { to: `${prefix}#who-we-help`, label: "Who we help" },
+    { to: `${prefix}#solutions`,    label: "Platform" },
+    { to: `${prefix}#casestudy`,   label: "Client Story" },
+    { to: `${prefix}#research`,    label: "Research" },
+    { to: `${prefix}#faq`,         label: "FAQ" },
+    { to: `${prefix}#contact`,     label: "Contact" },
   ];
 
-  // Smooth-scroll to section (only works on the homepage)
   const handleAnchorClick = (e, target) => {
-    if (!isHome) return; // Let the browser handle it off-home
+    // Off-home: let react-router navigate to "/#section"
+    if (!isHome) return;
+
+    // On-home: smooth-scroll to the section
     e.preventDefault();
     const el = document.querySelector(target);
     if (el) {
@@ -84,7 +87,13 @@ export default function Nav() {
     >
       <div className="max-w-[90rem] mx-auto px-8 md:px-16 flex items-center justify-between">
         {/* Logo */}
-        <Link to="/" className="hover:opacity-80 transition-opacity">
+        <Link
+          to="/"
+          onClick={() => {
+            if (isHome) window.scrollTo({ top: 0, behavior: "smooth" });
+          }}
+          className="hover:opacity-80 transition-opacity"
+        >
           <TumeloLogo />
         </Link>
 
